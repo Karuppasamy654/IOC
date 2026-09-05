@@ -1,0 +1,93 @@
+[
+  {
+    "id": "res-graph-bfs-visited",
+    "title": "Mastering BFS Visited States & Queue Synchronization",
+    "topic": "Graphs",
+    "subtopic": "BFS Traversal & Shortest Path",
+    "weakness_target": "implementation_weakness_visited_array",
+    "resource_type": "guided_walkthrough",
+    "difficulty": "Beginner to Intermediate",
+    "url": "https://visualgo.net/en/bfs",
+    "summary": "Step-by-step visual animation demonstrating why marking vertices as visited immediately upon enqueueing prevents duplicate additions and quadratic time degradation.",
+    "key_takeaways": [
+      "Always mark visited[node] = True BEFORE pushing to queue.",
+      "Track parent pointers when reconstructing shortest paths in unweighted graphs.",
+      "Use deque.popleft() in Python for O(1) removals vs O(N) list.pop(0)."
+    ],
+    "interactive_code_snippet": "visited[start] = True\nqueue.append(start)\nwhile queue:\n    curr = queue.popleft()\n    for neighbor in adj[curr]:\n        if not visited[neighbor]:\n            visited[neighbor] = True  # Critical step!\n            queue.append(neighbor)"
+  },
+  {
+    "id": "res-graph-bfs-visual",
+    "title": "Interactive Graph Traversal Simulator & Edge Cases",
+    "topic": "Graphs",
+    "subtopic": "BFS Traversal & Shortest Path",
+    "weakness_target": "conceptual_weakness_graph_traversal",
+    "resource_type": "visual_simulation",
+    "difficulty": "Beginner",
+    "url": "https://algorithm-visualizer.org/brute-force/breadth-first-search",
+    "summary": "Interactive visualizer illustrating layer-by-layer frontier expansion and multi-source BFS.",
+    "key_takeaways": [
+      "Layer-by-layer expansion guarantees minimal edge distance.",
+      "Disconnected components require an outer loop over all vertices 0..V-1."
+    ]
+  },
+  {
+    "id": "res-bs-boundary",
+    "title": "Binary Search Invariants & Boundary Proofs",
+    "topic": "Binary Search",
+    "subtopic": "Rotated Sorted Array Search",
+    "weakness_target": "implementation_weakness_boundary_conditions",
+    "resource_type": "cheat_sheet_and_proof",
+    "url": "https://cp-algorithms.com/num_methods/binary_search.html",
+    "summary": "Definitive guide on while(low <= high) vs while(low < high) and preventing mid-point arithmetic overflow.",
+    "key_takeaways": [
+      "Maintain invariant: target lies within search interval [low, high].",
+      "Calculate mid as low + (high - low) // 2.",
+      "Determine which half is strictly sorted before discarding search space."
+    ]
+  },
+  {
+    "id": "res-dp-knapsack",
+    "title": "Dynamic Programming Patterns: Unbounded vs 0/1 Knapsack",
+    "topic": "Dynamic Programming",
+    "subtopic": "0/1 Knapsack & Coin Change",
+    "weakness_target": "conceptual_weakness_state_transition",
+    "resource_type": "pattern_breakdown",
+    "url": "https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns",
+    "summary": "State transition breakdown for combinatorial sum and optimal substructure problems.",
+    "key_takeaways": [
+      "Define DP[i] as minimum coins needed to make sum i.",
+      "Base case: DP[0] = 0, all other DP[i] = infinity.",
+      "Transition: DP[i] = min(DP[i], DP[i - coin] + 1)."
+    ]
+  },
+  {
+    "id": "res-os-deadlock",
+    "title": "Operating Systems: Process Synchronization & Deadlock Recovery",
+    "topic": "Operating Systems",
+    "subtopic": "Deadlock & Process Synchronization",
+    "weakness_target": "conceptual_weakness_core_cs",
+    "resource_type": "concept_breakdown",
+    "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf",
+    "summary": "Clear conceptual diagrams of resource allocation graphs, circular wait prevention, and Peterson's algorithm.",
+    "key_takeaways": [
+      "Mutual Exclusion, Hold and Wait, No Preemption, Circular Wait are necessary and sufficient.",
+      "Banker's Algorithm ensures safe state before resource grant."
+    ]
+  },
+  {
+    "id": "res-sql-window",
+    "title": "SQL Mastery: DENSE_RANK, RANK, and ROW_NUMBER Demystified",
+    "topic": "SQL",
+    "subtopic": "Window Functions & Aggregation",
+    "weakness_target": "implementation_weakness_sql",
+    "resource_type": "interactive_tutorial",
+    "url": "https://mode.com/sql-tutorial/sql-window-functions/",
+    "summary": "Hands-on guide with examples of top-N queries, cumulative sums, and partitioning.",
+    "key_takeaways": [
+      "ROW_NUMBER assigns distinct integer to each row regardless of duplicates.",
+      "RANK skips subsequent rankings on ties.",
+      "DENSE_RANK assigns identical rank to ties without skipping subsequent integers."
+    ]
+  }
+]

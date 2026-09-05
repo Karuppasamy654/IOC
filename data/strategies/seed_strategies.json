@@ -1,0 +1,93 @@
+[
+  {
+    "strategy_id": "strat-guided-coding-graphs",
+    "strategy_name": "Visual Breakdown + Guided Coding + Targeted Practice",
+    "topic": "Graphs",
+    "weakness_type": "implementation_weakness",
+    "context": "Student understands BFS/DFS theory but fails visited array state handling or edge cases in coding.",
+    "intervention_sequence": [
+      "Visual state diagram & animated traversal",
+      "Worked example emphasizing visited[node] placement",
+      "Guided coding problem with incremental test validation",
+      "Timed independent practice problem"
+    ],
+    "historical_before_score": 38.0,
+    "historical_after_score": 67.0,
+    "historical_delta": 29.0,
+    "sample_size": 24,
+    "success_rate": 0.88,
+    "effectiveness": "Highly Effective"
+  },
+  {
+    "strategy_id": "strat-theory-random-practice",
+    "strategy_name": "Passive Theory Reading + Random Practice",
+    "topic": "Graphs",
+    "weakness_type": "implementation_weakness",
+    "context": "Traditional review: reading textbook chapters followed by uncurated practice questions.",
+    "intervention_sequence": [
+      "Read graph theory documentation",
+      "Attempt random medium difficulty problem"
+    ],
+    "historical_before_score": 38.0,
+    "historical_after_score": 41.0,
+    "historical_delta": 3.0,
+    "sample_size": 18,
+    "success_rate": 0.22,
+    "effectiveness": "Ineffective"
+  },
+  {
+    "strategy_id": "strat-invariant-drills-binary-search",
+    "strategy_name": "Loop Invariant Drills + Edge Case Template",
+    "topic": "Binary Search",
+    "weakness_type": "implementation_weakness",
+    "context": "Student commits off-by-one errors or infinite loops on boundary conditions in rotated/monotone search.",
+    "intervention_sequence": [
+      "Invariant proof sheet (low <= high vs low < high)",
+      "Debugging flawed templates with deliberate off-by-one errors",
+      "Targeted rotated array problem"
+    ],
+    "historical_before_score": 45.0,
+    "historical_after_score": 78.0,
+    "historical_delta": 33.0,
+    "sample_size": 31,
+    "success_rate": 0.90,
+    "effectiveness": "Highly Effective"
+  },
+  {
+    "strategy_id": "strat-subproblem-tree-dp",
+    "strategy_name": "Recursion Tree Visualization + Memoization to Tabulation",
+    "topic": "Dynamic Programming",
+    "weakness_type": "conceptual_weakness",
+    "context": "Student struggles to identify optimal substructure and formulate recurrence relations.",
+    "intervention_sequence": [
+      "Draw subproblem DAG/recursion tree",
+      "Implement top-down recursion with memoization dict",
+      "Convert to bottom-up 1D/2D DP table",
+      "Coin Change / Knapsack targeted drill"
+    ],
+    "historical_before_score": 30.0,
+    "historical_after_score": 62.0,
+    "historical_delta": 32.0,
+    "sample_size": 29,
+    "success_rate": 0.86,
+    "effectiveness": "Highly Effective"
+  },
+  {
+    "strategy_id": "strat-core-cs-spaced-flashcards",
+    "strategy_name": "Spaced Active Recall + Scenario-Based MCQs",
+    "topic": "Operating Systems",
+    "weakness_type": "conceptual_weakness",
+    "context": "Student forgets Coffman conditions, paging anomalies, or scheduling algorithms under test conditions.",
+    "intervention_sequence": [
+      "High-yield concept summary sheet",
+      "Immediate active recall quiz",
+      "Scenario-based debugging questions"
+    ],
+    "historical_before_score": 42.0,
+    "historical_after_score": 74.0,
+    "historical_delta": 32.0,
+    "sample_size": 40,
+    "success_rate": 0.85,
+    "effectiveness": "Highly Effective"
+  }
+]

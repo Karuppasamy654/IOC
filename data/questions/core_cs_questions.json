@@ -1,0 +1,106 @@
+[
+  {
+    "id": "os-mcq-01",
+    "topic": "Operating Systems",
+    "subtopic": "Deadlock & Process Synchronization",
+    "title": "Coffman Conditions for Deadlock",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "Which of the following is NOT one of the four mandatory Coffman conditions required for a deadlock to occur?",
+    "options": [
+      "Mutual Exclusion",
+      "Hold and Wait",
+      "Preemption Permitted",
+      "Circular Wait"
+    ],
+    "correct_option_index": 2,
+    "explanation": "The four Coffman conditions are: 1) Mutual Exclusion, 2) Hold and Wait, 3) No Preemption (resources cannot be forcibly taken), and 4) Circular Wait."
+  },
+  {
+    "id": "os-mcq-02",
+    "topic": "Operating Systems",
+    "subtopic": "Virtual Memory & Paging",
+    "title": "Belady's Anomaly Occurrence",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "Belady's Anomaly (where increasing the number of page frames results in an increased number of page faults) primarily occurs in which page replacement algorithm?",
+    "options": [
+      "Optimal Page Replacement (OPT)",
+      "Least Recently Used (LRU)",
+      "First-In First-Out (FIFO)",
+      "Least Frequently Used (LFU)"
+    ],
+    "correct_option_index": 2,
+    "explanation": "FIFO page replacement algorithm suffers from Belady's anomaly because it does not belong to the class of stack-based page replacement algorithms (unlike LRU and OPT)."
+  },
+  {
+    "id": "dbms-mcq-01",
+    "topic": "DBMS",
+    "subtopic": "ACID Properties & Transactions",
+    "title": "Isolation Levels & Dirty Read Anomaly",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "Which SQL transaction isolation level prevents 'Dirty Reads' but still allows 'Non-Repeatable Reads'?",
+    "options": [
+      "Read Uncommitted",
+      "Read Committed",
+      "Repeatable Read",
+      "Serializable"
+    ],
+    "correct_option_index": 1,
+    "explanation": "Read Committed ensures that any data read is committed at the moment it is read, eliminating dirty reads. However, non-repeatable reads can still happen if another transaction modifies and commits data concurrently."
+  },
+  {
+    "id": "dbms-sql-01",
+    "topic": "SQL",
+    "subtopic": "Window Functions & Aggregation",
+    "title": "Nth Highest Salary Query",
+    "difficulty": "Medium",
+    "type": "sql",
+    "description": "Write a SQL query using window functions (DENSE_RANK) or LIMIT/OFFSET to retrieve the 2nd highest unique salary from the Employee table.",
+    "starter_code": {
+      "sql": "SELECT DISTINCT salary FROM Employee ORDER BY salary DESC LIMIT 1 OFFSET 1;"
+    },
+    "test_cases": [
+      {
+        "input_table": "Employee (id, salary) [(1, 100), (2, 200), (3, 300)]",
+        "expected": "200"
+      }
+    ],
+    "explanation": "DENSE_RANK() OVER (ORDER BY salary DESC) allows ranking distinct salaries consecutively without skipping rank positions."
+  },
+  {
+    "id": "cn-mcq-01",
+    "topic": "Computer Networks",
+    "subtopic": "TCP/IP & Transport Layer",
+    "title": "TCP 3-Way Handshake Sequence",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "What is the standard packet exchange sequence in establishing a TCP connection?",
+    "options": [
+      "SYN -> ACK -> SYN-ACK",
+      "SYN -> SYN-ACK -> ACK",
+      "ACK -> SYN -> SYN-ACK",
+      "SYN-ACK -> SYN -> ACK"
+    ],
+    "correct_option_index": 1,
+    "explanation": "Client sends SYN, server replies with SYN-ACK, and client acknowledges with ACK to establish a full-duplex TCP stream."
+  },
+  {
+    "id": "oop-mcq-01",
+    "topic": "OOP",
+    "subtopic": "Polymorphism & Design Principles",
+    "title": "Runtime Polymorphism Mechanism",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "In Object-Oriented Programming (such as C++ or Java), runtime polymorphism is primarily achieved through which mechanism?",
+    "options": [
+      "Function Overloading",
+      "Method Overriding with Virtual Functions / Dynamic Dispatch",
+      "Operator Overloading",
+      "Private Member Encapsulation"
+    ],
+    "correct_option_index": 1,
+    "explanation": "Method Overriding using dynamic dispatch (vtable/vptr in C++, dynamic method invocation in Java) achieves runtime polymorphism."
+  }
+]

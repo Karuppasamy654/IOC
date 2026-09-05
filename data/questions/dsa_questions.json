@@ -1,0 +1,162 @@
+[
+  {
+    "id": "dsa-graph-bfs-01",
+    "topic": "Graphs",
+    "subtopic": "BFS Traversal & Shortest Path",
+    "title": "Breadth First Search (BFS) Traversal in Undirected Graph",
+    "difficulty": "Medium",
+    "type": "coding",
+    "description": "Given an adjacency list of an undirected graph with V vertices (numbered 0 to V-1) and a starting vertex 0, return the BFS traversal sequence. Ensure you do not process vertices multiple times by maintaining a visited state.",
+    "starter_code": {
+      "python": "def bfs_traversal(V: int, adj: list[list[int]]) -> list[int]:\n    # Write your BFS logic here\n    result = []\n    # TODO: Implement BFS with queue and visited tracker\n    return result\n",
+      "javascript": "function bfsTraversal(V, adj) {\n    // Write your BFS logic here\n    const result = [];\n    return result;\n}",
+      "cpp": "#include <vector>\n#include <queue>\nusing namespace std;\n\nvector<int> bfsTraversal(int V, vector<vector<int>>& adj) {\n    vector<int> result;\n    return result;\n}"
+    },
+    "test_cases": [
+      {
+        "input": {"V": 5, "adj": [[1, 2, 3], [], [4], [], []]},
+        "expected": [0, 1, 2, 3, 4],
+        "is_hidden": false
+      },
+      {
+        "input": {"V": 4, "adj": [[1, 2], [0, 2], [0, 1, 3], [2]]},
+        "expected": [0, 1, 2, 3],
+        "is_hidden": false
+      },
+      {
+        "input": {"V": 6, "adj": [[1, 2], [0, 3, 4], [0, 5], [1], [1], [2]]},
+        "expected": [0, 1, 2, 3, 4, 5],
+        "is_hidden": true
+      },
+      {
+        "input": {"V": 3, "adj": [[1, 2], [0, 2], [0, 1]]},
+        "expected": [0, 1, 2],
+        "is_hidden": true
+      }
+    ],
+    "flaw_triggers": {
+      "visited_missing": "Infinite loop or duplicate vertex visits caused by missing or late visited-set update.",
+      "queue_order": "Vertices popped in LIFO rather than FIFO order.",
+      "zero_vertex_unhandled": "Failure on disconnected components or single vertex."
+    },
+    "reference_solution": {
+      "python": "from collections import deque\ndef bfs_traversal(V: int, adj: list[list[int]]) -> list[int]:\n    visited = [False] * V\n    queue = deque([0])\n    visited[0] = True\n    result = []\n    while queue:\n        node = queue.popleft()\n        result.append(node)\n        for neighbor in adj[node]:\n            if not visited[neighbor]:\n                visited[neighbor] = True\n                queue.append(neighbor)\n    return result\n"
+    }
+  },
+  {
+    "id": "dsa-bs-01",
+    "topic": "Binary Search",
+    "subtopic": "Rotated Sorted Array Search",
+    "title": "Search in Rotated Sorted Array",
+    "difficulty": "Medium",
+    "type": "coding",
+    "description": "Given an integer array nums sorted in ascending order (with distinct values) that is possibly rotated at an unknown pivot index, return the index of target if it is in nums, or -1 if it is not.",
+    "starter_code": {
+      "python": "def search_rotated(nums: list[int], target: int) -> int:\n    # Implement modified binary search\n    left, right = 0, len(nums) - 1\n    return -1\n"
+    },
+    "test_cases": [
+      {
+        "input": {"nums": [4,5,6,7,0,1,2], "target": 0},
+        "expected": 4,
+        "is_hidden": false
+      },
+      {
+        "input": {"nums": [4,5,6,7,0,1,2], "target": 3},
+        "expected": -1,
+        "is_hidden": false
+      },
+      {
+        "input": {"nums": [1], "target": 0},
+        "expected": -1,
+        "is_hidden": true
+      },
+      {
+        "input": {"nums": [6,7,1,2,3,4,5], "target": 6},
+        "expected": 0,
+        "is_hidden": true
+      }
+    ],
+    "flaw_triggers": {
+      "boundary_condition": "Incorrect <= or < condition when checking sorted half.",
+      "mid_calc_overflow": "Using (low + high) / 2 rather than low + (high - low) // 2."
+    },
+    "reference_solution": {
+      "python": "def search_rotated(nums: list[int], target: int) -> int:\n    low, high = 0, len(nums) - 1\n    while low <= high:\n        mid = low + (high - low) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[low] <= nums[mid]:\n            if nums[low] <= target < nums[mid]:\n                high = mid - 1\n            else:\n                low = mid + 1\n        else:\n            if nums[mid] < target <= nums[high]:\n                low = mid + 1\n            else:\n                high = mid - 1\n    return -1\n"
+    }
+  },
+  {
+    "id": "dsa-dp-01",
+    "topic": "Dynamic Programming",
+    "subtopic": "0/1 Knapsack & Coin Change",
+    "title": "Coin Change - Minimum Coins",
+    "difficulty": "Medium",
+    "type": "coding",
+    "description": "Given an integer array coins representing coins of different denominations and an integer amount, return the fewest number of coins that you need to make up that amount. If that amount cannot be made up, return -1.",
+    "starter_code": {
+      "python": "def coin_change(coins: list[int], amount: int) -> int:\n    # DP coin change\n    return -1\n"
+    },
+    "test_cases": [
+      {
+        "input": {"coins": [1, 2, 5], "amount": 11},
+        "expected": 3,
+        "is_hidden": false
+      },
+      {
+        "input": {"coins": [2], "amount": 3},
+        "expected": -1,
+        "is_hidden": false
+      },
+      {
+        "input": {"coins": [1], "amount": 0},
+        "expected": 0,
+        "is_hidden": true
+      },
+      {
+        "input": {"coins": [186, 419, 83, 408], "amount": 6249},
+        "expected": 20,
+        "is_hidden": true
+      }
+    ],
+    "flaw_triggers": {
+      "unbounded_initialization": "Initializing DP table with 0 or amount instead of infinity.",
+      "greedy_pitfall": "Using greedy coin selection instead of optimal bottom-up DP."
+    },
+    "reference_solution": {
+      "python": "def coin_change(coins: list[int], amount: int) -> int:\n    dp = [float('inf')] * (amount + 1)\n    dp[0] = 0\n    for coin in coins:\n        for x in range(coin, amount + 1):\n            dp[x] = min(dp[x], dp[x - coin] + 1)\n    return dp[amount] if dp[amount] != float('inf') else -1\n"
+    }
+  },
+  {
+    "id": "dsa-mcq-01",
+    "topic": "Graphs",
+    "subtopic": "Graph BFS Theory",
+    "title": "BFS Time and Space Complexity Analysis",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "What is the worst-case time complexity of Breadth-First Search on a graph with V vertices and E edges represented using an Adjacency List?",
+    "options": [
+      "O(V^2)",
+      "O(V + E)",
+      "O(E * log V)",
+      "O(V * E)"
+    ],
+    "correct_option_index": 1,
+    "explanation": "BFS visits every vertex once (O(V)) and explores each edge once in directed graph or twice in undirected graph (O(E)). Thus time complexity is O(V + E)."
+  },
+  {
+    "id": "dsa-mcq-02",
+    "topic": "Graphs",
+    "subtopic": "Cycle Detection in Undirected Graph",
+    "title": "Cycle Detection Mechanism",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "In an undirected graph BFS, when can we conclude that a cycle exists?",
+    "options": [
+      "When we encounter any visited vertex regardless of parent.",
+      "When an adjacent node is already visited and is NOT the parent of the current node.",
+      "When the queue size exceeds V.",
+      "When the degree of any vertex is greater than 2."
+    ],
+    "correct_option_index": 1,
+    "explanation": "If an adjacent vertex is already visited and is not the immediate parent from which we came, it indicates an alternate path / back-edge, proving a cycle."
+  }
+]
