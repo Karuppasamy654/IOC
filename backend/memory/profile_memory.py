@@ -22,10 +22,15 @@ class ProfileMemory:
             "graduation_year": profile.graduation_year,
             "cgpa": profile.cgpa,
             "target_role": profile.target_role,
+            "target_company": profile.target_company,
+            "preferred_job_type": profile.preferred_job_type,
             "available_hours_per_day": profile.available_hours_per_day,
             "preparation_deadline_days": profile.preparation_deadline_days,
             "skills": profile.skills,
             "preferred_subjects": profile.preferred_subjects,
+            "learning_style": profile.learning_style,
+            "user_requirements": profile.user_requirements,
+            "tech_familiarity": profile.tech_familiarity,
             "readiness_score": profile.readiness_score
         }
 

@@ -1,28 +1,39 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
+
 from backend.database.connection import get_db
 from backend.models.strategy import AdaptivePlanSchedule, StrategyRecord, AgentTraceLog
 from backend.models.performance import EpisodicLog, MistakeRecord
+from backend.models.student import User
+from backend.api.auth import get_current_user
 
 router = APIRouter(prefix="/api/progress", tags=["Progress & Strategy Telemetry"])
 
 @router.get("/plan")
-def get_current_plan(user_id: int = 1, db: Session = Depends(get_db)):
+def get_current_plan(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
     plan = db.query(AdaptivePlanSchedule).filter(
-        AdaptivePlanSchedule.user_id == user_id,
+        AdaptivePlanSchedule.user_id == current_user.id,
         AdaptivePlanSchedule.is_active == True
     ).order_by(AdaptivePlanSchedule.version.desc()).first()
 
     if not plan:
-        plan = db.query(AdaptivePlanSchedule).order_by(AdaptivePlanSchedule.id.desc()).first()
+        # Check any historical plan for user
+        plan = db.query(AdaptivePlanSchedule).filter(
+            AdaptivePlanSchedule.user_id == current_user.id
+        ).order_by(AdaptivePlanSchedule.version.desc()).first()
 
     if not plan:
         return {
-            "version": 1,
-            "plan_title": "Default SDE Placement Plan",
-            "adaptation_reason": "Default schedule",
-            "schedule_blocks": []
+            "version": 0,
+            "plan_title": "No Adaptive Plan Generated Yet",
+            "adaptation_reason": "Complete baseline assessment to generate your personalized placement preparation schedule.",
+            "schedule_blocks": [],
+            "total_study_minutes_per_day": 0,
+            "target_deadline_days": 30
         }
 
     return {
@@ -37,9 +48,12 @@ def get_current_plan(user_id: int = 1, db: Session = Depends(get_db)):
     }
 
 @router.get("/plans/history")
-def get_plan_history(user_id: int = 1, db: Session = Depends(get_db)):
+def get_plan_history(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
     plans = db.query(AdaptivePlanSchedule).filter(
-        AdaptivePlanSchedule.user_id == user_id
+        AdaptivePlanSchedule.user_id == current_user.id
     ).order_by(AdaptivePlanSchedule.version.desc()).all()
 
     return [
@@ -56,8 +70,14 @@ def get_plan_history(user_id: int = 1, db: Session = Depends(get_db)):
     ]
 
 @router.get("/episodes")
-def get_episodic_logs(user_id: int = 1, db: Session = Depends(get_db)):
-    episodes = db.query(EpisodicLog).filter(EpisodicLog.user_id == user_id).order_by(EpisodicLog.timestamp.desc()).limit(20).all()
+def get_episodic_logs(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    episodes = db.query(EpisodicLog).filter(
+        EpisodicLog.user_id == current_user.id
+    ).order_by(EpisodicLog.timestamp.desc()).limit(20).all()
+
     return [
         {
             "id": e.id,
@@ -97,8 +117,14 @@ def get_strategy_effectiveness(db: Session = Depends(get_db)):
     ]
 
 @router.get("/mistakes")
-def get_mistakes(user_id: int = 1, db: Session = Depends(get_db)):
-    mistakes = db.query(MistakeRecord).filter(MistakeRecord.user_id == user_id).order_by(MistakeRecord.occurrence_count.desc()).all()
+def get_mistakes(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    mistakes = db.query(MistakeRecord).filter(
+        MistakeRecord.user_id == current_user.id
+    ).order_by(MistakeRecord.occurrence_count.desc()).all()
+
     return [
         {
             "id": m.id,
@@ -114,15 +140,16 @@ def get_mistakes(user_id: int = 1, db: Session = Depends(get_db)):
     ]
 
 @router.get("/traces")
-def get_agent_traces(user_id: int = 1, session_id: Optional[str] = None, db: Session = Depends(get_db)):
-    query = db.query(AgentTraceLog)
-    if user_id:
-        query = query.filter(AgentTraceLog.user_id == user_id)
+def get_agent_traces(
+    session_id: Optional[str] = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    query = db.query(AgentTraceLog).filter(AgentTraceLog.user_id == current_user.id)
     if session_id:
         query = query.filter(AgentTraceLog.session_id == session_id)
 
     traces = query.order_by(AgentTraceLog.timestamp.desc(), AgentTraceLog.step_number.desc()).limit(30).all()
-    # Return in chronological order
     traces.reverse()
 
     return [

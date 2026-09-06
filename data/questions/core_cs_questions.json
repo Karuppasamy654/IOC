@@ -1,23 +1,25 @@
 [
   {
     "id": "os-mcq-01",
+    "company": "Amazon",
     "topic": "Operating Systems",
     "subtopic": "Deadlock & Process Synchronization",
     "title": "Coffman Conditions for Deadlock",
     "difficulty": "Easy",
     "type": "mcq",
-    "description": "Which of the following is NOT one of the four mandatory Coffman conditions required for a deadlock to occur?",
+    "description": "Which of the following is NOT one of the four mandatory Coffman conditions required for a deadlock to occur in an Operating System?",
     "options": [
-      "Mutual Exclusion",
-      "Hold and Wait",
-      "Preemption Permitted",
-      "Circular Wait"
+      "A) Mutual Exclusion",
+      "B) Hold and Wait",
+      "C) Preemption Permitted",
+      "D) Circular Wait"
     ],
     "correct_option_index": 2,
     "explanation": "The four Coffman conditions are: 1) Mutual Exclusion, 2) Hold and Wait, 3) No Preemption (resources cannot be forcibly taken), and 4) Circular Wait."
   },
   {
     "id": "os-mcq-02",
+    "company": "Amazon",
     "topic": "Operating Systems",
     "subtopic": "Virtual Memory & Paging",
     "title": "Belady's Anomaly Occurrence",
@@ -25,16 +27,35 @@
     "type": "mcq",
     "description": "Belady's Anomaly (where increasing the number of page frames results in an increased number of page faults) primarily occurs in which page replacement algorithm?",
     "options": [
-      "Optimal Page Replacement (OPT)",
-      "Least Recently Used (LRU)",
-      "First-In First-Out (FIFO)",
-      "Least Frequently Used (LFU)"
+      "A) Optimal Page Replacement (OPT)",
+      "B) Least Recently Used (LRU)",
+      "C) First-In First-Out (FIFO)",
+      "D) Least Frequently Used (LFU)"
     ],
     "correct_option_index": 2,
-    "explanation": "FIFO page replacement algorithm suffers from Belady's anomaly because it does not belong to the class of stack-based page replacement algorithms (unlike LRU and OPT)."
+    "explanation": "FIFO page replacement algorithm suffers from Belady's anomaly because it does not belong to the class of stack-based page replacement algorithms."
+  },
+  {
+    "id": "os-mcq-google-01",
+    "company": "Google",
+    "topic": "Operating Systems",
+    "subtopic": "Process Scheduling",
+    "title": "Shortest Remaining Time First (SRTF) Scheduling",
+    "difficulty": "Hard",
+    "type": "mcq",
+    "description": "Shortest Remaining Time First (SRTF) is the preemptive version of which CPU scheduling algorithm?",
+    "options": [
+      "A) Shortest Job First (SJF)",
+      "B) Round Robin (RR)",
+      "C) First Come First Served (FCFS)",
+      "D) Priority Scheduling"
+    ],
+    "correct_option_index": 0,
+    "explanation": "SRTF preempts the running process whenever a new process arrives with a shorter remaining CPU burst time than the current running process."
   },
   {
     "id": "dbms-mcq-01",
+    "company": "Amazon",
     "topic": "DBMS",
     "subtopic": "ACID Properties & Transactions",
     "title": "Isolation Levels & Dirty Read Anomaly",
@@ -42,35 +63,71 @@
     "type": "mcq",
     "description": "Which SQL transaction isolation level prevents 'Dirty Reads' but still allows 'Non-Repeatable Reads'?",
     "options": [
-      "Read Uncommitted",
-      "Read Committed",
-      "Repeatable Read",
-      "Serializable"
+      "A) Read Uncommitted",
+      "B) Read Committed",
+      "C) Repeatable Read",
+      "D) Serializable"
     ],
     "correct_option_index": 1,
-    "explanation": "Read Committed ensures that any data read is committed at the moment it is read, eliminating dirty reads. However, non-repeatable reads can still happen if another transaction modifies and commits data concurrently."
+    "explanation": "Read Committed ensures that any data read is committed at the moment it is read, eliminating dirty reads."
   },
   {
     "id": "dbms-sql-01",
-    "topic": "SQL",
+    "company": "Microsoft",
+    "topic": "DBMS & SQL",
     "subtopic": "Window Functions & Aggregation",
-    "title": "Nth Highest Salary Query",
+    "title": "Nth Highest Salary Query Output",
     "difficulty": "Medium",
-    "type": "sql",
-    "description": "Write a SQL query using window functions (DENSE_RANK) or LIMIT/OFFSET to retrieve the 2nd highest unique salary from the Employee table.",
-    "starter_code": {
-      "sql": "SELECT DISTINCT salary FROM Employee ORDER BY salary DESC LIMIT 1 OFFSET 1;"
-    },
-    "test_cases": [
-      {
-        "input_table": "Employee (id, salary) [(1, 100), (2, 200), (3, 300)]",
-        "expected": "200"
-      }
+    "type": "mcq",
+    "description": "Predict the output result of this SQL query executed against an Employee table with salaries [10000, 20000, 20000, 30000]:\n\nSELECT MAX(salary) FROM Employee WHERE salary < (SELECT MAX(salary) FROM Employee);",
+    "options": [
+      "A) 30000",
+      "B) 20000",
+      "C) 10000",
+      "D) NULL"
     ],
-    "explanation": "DENSE_RANK() OVER (ORDER BY salary DESC) allows ranking distinct salaries consecutively without skipping rank positions."
+    "correct_option_index": 1,
+    "explanation": "The subquery finds MAX(salary) = 30000. The outer query returns the maximum salary strictly less than 30000, which is 20000."
+  },
+  {
+    "id": "dbms-sql-02",
+    "company": "TCS Digital",
+    "topic": "DBMS & SQL",
+    "subtopic": "SQL Group By & HAVING Clause",
+    "title": "Filtering Aggregated Groups in SQL",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "Which SQL clause MUST be used to filter groups created by a GROUP BY clause based on aggregate function values (such as COUNT() > 5)?",
+    "options": [
+      "A) WHERE",
+      "B) HAVING",
+      "C) ORDER BY",
+      "D) QUALIFY"
+    ],
+    "correct_option_index": 1,
+    "explanation": "HAVING filters aggregated groups after GROUP BY, whereas WHERE filters individual rows prior to grouping."
+  },
+  {
+    "id": "cpp-mcq-01",
+    "company": "Amazon",
+    "topic": "C++",
+    "subtopic": "Output Prediction & Virtual Table",
+    "title": "Predict Output of Virtual Function Override",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "Predict the printed output of the C++ code:\n\nclass Base { public: virtual void print() { cout << \"Base \"; } };\nclass Derived : public Base { public: void print() override { cout << \"Derived \"; } };\nint main() { Base* b = new Derived(); b->print(); Derived* d = (Derived*)b; d->print(); }",
+    "options": [
+      "A) Base Base",
+      "B) Derived Derived",
+      "C) Base Derived",
+      "D) Derived Base"
+    ],
+    "correct_option_index": 1,
+    "explanation": "Both calls output 'Derived Derived'. Because print() is virtual, dynamic binding via vtable resolves to Derived::print()."
   },
   {
     "id": "cn-mcq-01",
+    "company": "Infosys SP",
     "topic": "Computer Networks",
     "subtopic": "TCP/IP & Transport Layer",
     "title": "TCP 3-Way Handshake Sequence",
@@ -78,29 +135,30 @@
     "type": "mcq",
     "description": "What is the standard packet exchange sequence in establishing a TCP connection?",
     "options": [
-      "SYN -> ACK -> SYN-ACK",
-      "SYN -> SYN-ACK -> ACK",
-      "ACK -> SYN -> SYN-ACK",
-      "SYN-ACK -> SYN -> ACK"
+      "A) SYN -> ACK -> SYN-ACK",
+      "B) SYN -> SYN-ACK -> ACK",
+      "C) ACK -> SYN -> SYN-ACK",
+      "D) SYN-ACK -> SYN -> ACK"
     ],
     "correct_option_index": 1,
     "explanation": "Client sends SYN, server replies with SYN-ACK, and client acknowledges with ACK to establish a full-duplex TCP stream."
   },
   {
     "id": "oop-mcq-01",
+    "company": "Microsoft",
     "topic": "OOP",
     "subtopic": "Polymorphism & Design Principles",
     "title": "Runtime Polymorphism Mechanism",
     "difficulty": "Easy",
     "type": "mcq",
-    "description": "In Object-Oriented Programming (such as C++ or Java), runtime polymorphism is primarily achieved through which mechanism?",
+    "description": "In Object-Oriented Programming, runtime polymorphism is primarily achieved through which mechanism?",
     "options": [
-      "Function Overloading",
-      "Method Overriding with Virtual Functions / Dynamic Dispatch",
-      "Operator Overloading",
-      "Private Member Encapsulation"
+      "A) Function Overloading",
+      "B) Method Overriding with Virtual Functions / Dynamic Dispatch",
+      "C) Operator Overloading",
+      "D) Private Member Encapsulation"
     ],
     "correct_option_index": 1,
-    "explanation": "Method Overriding using dynamic dispatch (vtable/vptr in C++, dynamic method invocation in Java) achieves runtime polymorphism."
+    "explanation": "Method Overriding using dynamic dispatch achieves runtime polymorphism."
   }
 ]

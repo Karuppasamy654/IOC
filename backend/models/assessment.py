@@ -8,6 +8,7 @@ class QuestionRecord(Base):
     __tablename__ = "question_records"
 
     id = Column(String(100), primary_key=True)
+    company = Column(String(100), nullable=True, default="Amazon", index=True)
     topic = Column(String(100), nullable=False, index=True)
     subtopic = Column(String(100), nullable=True)
     title = Column(String(255), nullable=False)

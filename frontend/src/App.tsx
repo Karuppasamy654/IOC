@@ -11,6 +11,8 @@ import { CodePracticeArena } from './components/CodePracticeArena';
 import { StudentProfileView } from './components/StudentProfileView';
 import { AgentExecutionTraceView } from './components/AgentExecutionTraceView';
 import { ResearchBenchmarkView } from './components/ResearchBenchmarkView';
+import { AuthModal } from './components/AuthModal';
+import { OnboardingWizard } from './components/OnboardingWizard';
 
 import {
   fetchProfile,
@@ -23,7 +25,10 @@ import {
   fetchStrategyEffectiveness,
   fetchQuestions,
   fetchAgentTraces,
-  triggerAgentCycle
+  triggerAgentCycle,
+  getCurrentUser,
+  removeToken,
+  getToken
 } from './services/api';
 
 import {
@@ -39,6 +44,7 @@ import {
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [user, setUser] = useState<any | null>(null);
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [readiness, setReadiness] = useState<ReadinessData | null>(null);
   const [competencies, setCompetencies] = useState<Competency[]>([]);
@@ -48,8 +54,26 @@ export const App: React.FC = () => {
   const [strategies, setStrategies] = useState<StrategyRecord[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [traces, setTraces] = useState<AgentTrace[]>([]);
+  
+  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [showWizard, setShowWizard] = useState<boolean>(false);
   const [isDemoRunning, setIsDemoRunning] = useState<boolean>(false);
   const [isRefreshingTraces, setIsRefreshingTraces] = useState<boolean>(false);
+
+  const checkAuthAndLoad = async () => {
+    try {
+      const token = getToken();
+      if (token) {
+        const u = await getCurrentUser();
+        if (u) {
+          setUser(u);
+        }
+      }
+      await loadAllData();
+    } catch (err) {
+      console.error('Error during initial auth check:', err);
+    }
+  };
 
   const loadAllData = async () => {
     try {
@@ -80,12 +104,28 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    loadAllData();
+    checkAuthAndLoad();
   }, []);
+
+  const handleAuthSuccess = async (userData: any) => {
+    setUser(userData);
+    await loadAllData();
+  };
+
+  const handleLogout = () => {
+    removeToken();
+    setUser(null);
+    setProfile(null);
+    setReadiness(null);
+    setCompetencies([]);
+    setWeaknesses([]);
+    setCurrentPlan(null);
+    setPlanHistory([]);
+  };
 
   const handleSaveProfile = async (updated: Partial<StudentProfile>) => {
     try {
-      const res = await updateProfile(updated, 1);
+      const res = await updateProfile(updated);
       setProfile(res);
       await loadAllData();
     } catch (err) {
@@ -96,22 +136,24 @@ export const App: React.FC = () => {
   const handleRunDemoScenario = async () => {
     setIsDemoRunning(true);
     try {
+      // Token is sent automatically via authFetch; user_id is resolved server-side from JWT.
+      // We still pass profile data so the graph gets correct context.
       await triggerAgentCycle({
-        user_id: 1,
+        user_id: user?.id || user?.user_id || undefined,
         branch: profile?.branch || 'Computer Science & Engineering',
         graduation_year: profile?.graduation_year || 2026,
-        cgpa: profile?.cgpa || 8.4,
-        target_role: profile?.placement_target || 'Software Development Engineer (SDE)',
+        cgpa: profile?.cgpa || 8.2,
+        target_role: profile?.target_role || 'Software Development Engineer (SDE)',
         target_company: profile?.target_company || 'Amazon',
         available_hours_per_day: profile?.available_hours_per_day || 3.0,
         preparation_deadline_days: profile?.preparation_deadline_days || 30,
-        skills: profile?.skills || ['Python', 'C++', 'DSA', 'DBMS', 'OS']
+        skills: profile?.skills || ['Python', 'DSA', 'DBMS', 'OS']
       });
 
       await loadAllData();
       setActiveTab('roadmap');
     } catch (err) {
-      console.error('Error executing demo scenario:', err);
+      console.error('Error executing agent cycle:', err);
     } finally {
       setIsDemoRunning(false);
     }
@@ -130,19 +172,50 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen text-slate-100 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
       <div>
         <Navbar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           onRunDemoScenario={handleRunDemoScenario}
           isDemoRunning={isDemoRunning}
-          readinessScore={readiness?.overall_readiness || 64}
+          readinessScore={readiness?.overall_readiness ?? null}
           targetCompany={profile?.target_company || 'Amazon'}
-          studentName={profile?.name || 'Rahul Sharma'}
+          studentName={user?.name || profile?.name || 'Student'}
+          isAuthenticated={!!user}
+          onOpenAuth={() => setIsAuthOpen(true)}
+          onLogout={handleLogout}
         />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+          {/* Onboarding Wizard Toggle Banner if unprofiled */}
+          {user && (!profile || !profile.target_company) && !showWizard && (
+            <div className="mb-6 p-4 glass-card border border-indigo-500/30 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 bg-indigo-950/40 backdrop-blur-md">
+              <div>
+                <h4 className="text-sm font-bold text-indigo-200">Complete Your Placement Onboarding</h4>
+                <p className="text-xs text-indigo-300/80 mt-0.5">Setup your target company, technical familiarity ratings, and daily commitment hours.</p>
+              </div>
+              <button
+                onClick={() => setShowWizard(true)}
+                className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-semibold rounded-xl shadow-lg shadow-indigo-500/25 transition-all"
+              >
+                Launch Onboarding Wizard
+              </button>
+            </div>
+          )}
+
+          {showWizard && (
+            <div className="mb-8">
+              <OnboardingWizard
+                initialProfile={profile}
+                onComplete={() => {
+                  setShowWizard(false);
+                  loadAllData();
+                }}
+              />
+            </div>
+          )}
+
           {activeTab === 'dashboard' && (
             <DashboardOverview
               profile={profile}
@@ -208,34 +281,36 @@ export const App: React.FC = () => {
           )}
 
           {activeTab === 'profile' && (
-            <StudentProfileView
-              profile={profile || {
-                user_id: 1,
-                name: 'Rahul Sharma',
-                college: 'NIT',
-                degree: 'B.Tech',
-                branch: 'CSE',
-                graduation_year: 2026,
-                cgpa: 8.4,
-                current_year: '4th Year',
-                current_semester: 'Sem 7',
-                skills: ['C++', 'Python'],
-                programming_languages: ['C++', 'Python'],
-                subjects_studied: ['DSA', 'DBMS', 'OS'],
-                strengths: ['SQL'],
-                weaknesses: ['Graphs'],
-                placement_target: 'SDE-1',
-                target_company: 'Amazon',
-                preparation_deadline_days: 30,
-                available_hours_per_day: 3,
-                preferred_learning_style: 'Visual + MCQ',
-                resume_summary: 'CSE Student',
-                curriculum_summary: 'Standard GATE/Placement CS Syllabus',
-                readiness_score: 64
-              }}
-              onSaveProfile={handleSaveProfile}
-              onTriggerAgentCycle={handleRunDemoScenario}
-            />
+            <div className="space-y-6">
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setShowWizard(!showWizard)}
+                  className="px-4 py-2 glass-panel hover:bg-slate-800/80 text-slate-200 text-xs font-semibold rounded-xl border border-white/10"
+                >
+                  {showWizard ? 'Hide Onboarding Wizard' : 'Open Onboarding Wizard'}
+                </button>
+              </div>
+              <StudentProfileView
+                profile={profile || {
+                  user_id: user?.id || 1,
+                  name: user?.name || 'Student',
+                  email: user?.email || '',
+                  branch: 'Computer Science',
+                  graduation_year: 2026,
+                  cgpa: 8.0,
+                  skills: ['Python', 'DSA'],
+                  preferred_subjects: ['DSA', 'Operating Systems', 'DBMS'],
+                  target_role: 'Software Development Engineer (SDE)',
+                  target_company: 'Amazon',
+                  preparation_deadline_days: 30,
+                  available_hours_per_day: 3.0,
+                  learning_style: 'Mixed',
+                  readiness_score: readiness?.overall_readiness || null
+                }}
+                onSaveProfile={handleSaveProfile}
+                onTriggerAgentCycle={handleRunDemoScenario}
+              />
+            </div>
           )}
 
           {activeTab === 'traces' && (
@@ -250,10 +325,17 @@ export const App: React.FC = () => {
         </main>
       </div>
 
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
+
       {/* Footer */}
-      <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-500 max-w-7xl mx-auto w-full px-6 flex flex-col md:flex-row items-center justify-between gap-2">
-        <span>PlacementEvolve AI &bull; Self-Adaptive Agentic Placement Preparation System</span>
-        <span className="font-mono text-[11px]">8 Autonomous Agents &bull; 3 Real Tools &bull; Multi-Tier Vector Memory</span>
+      <footer className="border-t border-white/10 py-6 text-center text-xs text-slate-400 max-w-7xl mx-auto w-full px-6 flex flex-col md:flex-row items-center justify-between gap-2">
+        <span>PlacementEvolve AI &bull; Self-Adaptive Agentic Placement Preparation Platform</span>
+        <span className="font-mono text-[11px] text-slate-400">8 Autonomous Agents &bull; LangGraph Workflow &bull; 4-Tier Memory &bull; Subprocess Sandbox</span>
       </footer>
     </div>
   );

@@ -1,26 +1,33 @@
 export interface StudentProfile {
-  user_id: number;
-  name: string;
-  college: string;
-  degree: string;
-  branch: string;
-  graduation_year: number;
-  cgpa: number;
-  current_year: string;
-  current_semester: string;
-  skills: string[];
-  programming_languages: string[];
-  subjects_studied: string[];
-  strengths: string[];
-  weaknesses: string[];
-  placement_target: string;
-  target_company: string;
-  preparation_deadline_days: number;
-  available_hours_per_day: number;
-  preferred_learning_style: string;
-  resume_summary: string;
-  curriculum_summary: string;
-  readiness_score: number;
+  user_id?: number;
+  name?: string;
+  email?: string;
+  college?: string;
+  degree?: string;
+  branch?: string;
+  graduation_year?: number;
+  cgpa?: number;
+  current_year?: string;
+  current_semester?: string;
+  skills?: string[];
+  preferred_subjects?: string[];
+  programming_languages?: string[];
+  subjects_studied?: string[];
+  strengths?: string[];
+  weaknesses?: string[];
+  placement_target?: string;
+  target_role?: string;
+  target_company?: string;
+  preferred_job_type?: string;
+  preparation_deadline_days?: number;
+  available_hours_per_day?: number;
+  preferred_learning_style?: string;
+  learning_style?: string;
+  user_requirements?: string;
+  tech_familiarity?: Record<string, string>;
+  resume_summary?: string;
+  curriculum_summary?: string;
+  readiness_score?: number | null;
 }
 
 export interface Competency {
@@ -35,11 +42,11 @@ export interface Competency {
 }
 
 export interface ReadinessData {
-  overall_readiness: number;
+  overall_readiness: number | null;
   breakdown: Record<string, number>;
   interpretation: string;
   target_readiness: number;
-  gap: number;
+  gap: number | null;
 }
 
 export interface WeaknessItem {
@@ -115,8 +122,8 @@ export interface Question {
   title: string;
   company?: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
-  question_type: 'Technical MCQ' | 'Conceptual MCQ' | 'Output Prediction' | 'Code Tracing' | 'SQL Output' | 'Debugging';
-  distinction_tag: 'Company Previous Pattern' | 'Company-Style Generated' | 'General Placement';
+  question_type: 'Technical MCQ' | 'Conceptual MCQ' | 'Output Prediction' | 'Code Tracing' | 'SQL Output' | 'Debugging' | string;
+  distinction_tag?: 'Company Previous Pattern' | 'Company-Style Generated' | 'General Placement' | string;
   description: string;
   starter_code?: Record<string, string>;
   test_cases?: Array<{ input: any; expected: any }>;
@@ -128,7 +135,7 @@ export interface Question {
 }
 
 export interface CodeExecutionResult {
-  status: 'accepted' | 'wrong_answer' | 'compile_error' | 'runtime_error';
+  status: string;
   passed: number;
   total: number;
   runtime_ms: number;
@@ -141,7 +148,7 @@ export interface CodeExecutionResult {
     input: any;
     expected: any;
     actual: any;
-    runtime_ms: number;
+    runtime_ms?: number;
     error?: string;
   }>;
   flaw_detected?: string;

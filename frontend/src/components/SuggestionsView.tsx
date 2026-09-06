@@ -1,6 +1,7 @@
-import React from 'react';
-import { Lightbulb, Sparkles, Target, ArrowRight, CheckCircle2, AlertTriangle, BookOpen } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Lightbulb, Sparkles, Target, ArrowRight, CheckCircle2, AlertTriangle, BookOpen, RefreshCw } from 'lucide-react';
 import { StudentProfile, WeaknessItem, AISuggestion } from '../types';
+import { fetchSuggestions } from '../services/api';
 
 interface SuggestionsViewProps {
   profile: StudentProfile | null;
@@ -10,77 +11,46 @@ interface SuggestionsViewProps {
 
 export const SuggestionsView: React.FC<SuggestionsViewProps> = ({ profile, weaknesses, onNavigate }) => {
   const targetCompany = profile?.target_company || 'Amazon';
+  const [suggestions, setSuggestions] = useState<AISuggestion[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const suggestions: AISuggestion[] = [
-    {
-      id: 'sug-1',
-      title: 'Graph BFS Accuracy Below Target Benchmark',
-      category: 'Weakness Target',
-      company_context: `${targetCompany} SDE Pattern`,
-      description: 'Your Graph traversal accuracy has remained below 50% across the last 3 assessment submissions due to visited array state timing errors.',
-      evidence: 'Evaluator telemetry logged 2 repeated visited_array_omission flaws during BFS execution.',
-      recommended_actions: [
-        'Review BFS/DFS queue-visited invariant fundamentals',
-        'Complete 10 medium Graph MCQs & output tracing questions',
-        'Take a targeted 15-minute Graph reassessment tomorrow'
-      ],
-      priority: 'High',
-      action_label: 'Practice 10 Graph MCQs Now',
-      action_target: 'practice'
-    },
-    {
-      id: 'sug-2',
-      title: 'High-Yield Target Company Focus: DBMS & SQL Output',
-      category: 'Company Pattern',
-      company_context: `${targetCompany} Assessment Pattern`,
-      description: `Historical ${targetCompany} technical placement OAs assign 25% weight to SQL query output prediction and DBMS normalization.`,
-      evidence: 'Strategy memory shows +24% score yield when DBMS revision is scheduled prior to full mock test.',
-      recommended_actions: [
-        'Practice 3NF & BCNF functional dependency output questions',
-        'Solve 5 SQL aggregation & HAVING clause output challenges'
-      ],
-      priority: 'High',
-      action_label: 'Practice SQL & DBMS MCQs',
-      action_target: 'practice'
-    },
-    {
-      id: 'sug-3',
-      title: 'Operating Systems Process Synchronization Re-allocation',
-      category: 'Schedule Replan',
-      company_context: 'Diagnosed Weak Topic',
-      description: 'Concept knowledge in OS is 78%, but practical deadlock implementation score is 42%. Shift study time from theoretical reading to output tracing.',
-      evidence: 'Agent 6 (Weakness Diagnosis) identified practical implementation deficit vs solid conceptual score.',
-      recommended_actions: [
-        "Trace Banker's Algorithm execution state step-by-step",
-        'Complete OS process synchronization debugging questions'
-      ],
-      priority: 'Medium',
-      action_label: 'Review OS Output Tracing',
-      action_target: 'practice'
+  const loadSuggestions = async () => {
+    setIsLoading(true);
+    try {
+      const data = await fetchSuggestions();
+      setSuggestions(data || []);
+    } catch (err) {
+      console.error('Error fetching suggestions:', err);
+    } finally {
+      setIsLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    loadSuggestions();
+  }, [profile]);
 
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="saas-card p-6 bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="glass-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold subtle-badge-indigo">
               AI Recommendations Engine
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold subtle-badge-emerald">
               Memory & Evidence Guided
             </span>
           </div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">Adaptive Suggestions & Recommendations</h2>
-          <p className="text-xs text-slate-600 font-medium mt-0.5">
+          <h2 className="text-xl font-black text-white tracking-tight">Adaptive Suggestions & Recommendations</h2>
+          <p className="text-xs text-slate-300 font-medium mt-0.5">
             Data-driven recommendations generated by analyzing your recent assessment outcomes, mistake memory logs, and {targetCompany} assessment weighting.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+          <span className="text-xs font-bold text-indigo-300 bg-indigo-950/60 px-3 py-1.5 rounded-lg border border-indigo-500/30">
             🎯 Company Context: {targetCompany}
           </span>
         </div>
@@ -91,38 +61,38 @@ export const SuggestionsView: React.FC<SuggestionsViewProps> = ({ profile, weakn
         {suggestions.map((sug) => {
           const isHigh = sug.priority === 'High';
           return (
-            <div key={sug.id} className="saas-card p-6 border-l-4 border-l-indigo-600 space-y-4 bg-white">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div key={sug.id} className="glass-card p-6 border-l-4 border-l-indigo-500 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
-                  <Lightbulb className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">{sug.title}</h3>
+                  <Lightbulb className="w-5 h-5 text-indigo-400" />
+                  <h3 className="text-base font-bold text-white">{sug.title}</h3>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                  <span className="px-2.5 py-0.5 rounded text-xs font-bold subtle-badge-indigo">
                     {sug.category}
                   </span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold subtle-badge-amber">
                     {sug.priority} Priority
                   </span>
                 </div>
               </div>
 
-              <div className="space-y-2 text-xs text-slate-700">
-                <p className="font-semibold text-slate-900 leading-relaxed">{sug.description}</p>
-                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-600 font-mono">
-                  <span className="font-bold text-slate-800">Agent Memory Evidence: </span>
+              <div className="space-y-2 text-xs text-slate-300">
+                <p className="font-semibold text-slate-200 leading-relaxed">{sug.description}</p>
+                <div className="p-3 rounded-lg bg-slate-950/70 border border-white/10 text-[11px] text-slate-300 font-mono">
+                  <span className="font-bold text-indigo-400">Agent Memory Evidence: </span>
                   {sug.evidence}
                 </div>
               </div>
 
               {/* Recommended Action Checklist */}
               <div className="space-y-1.5 pt-1">
-                <span className="text-xs font-bold text-slate-800">Recommended Action Plan:</span>
+                <span className="text-xs font-bold text-slate-200">Recommended Action Plan:</span>
                 <div className="space-y-1">
                   {sug.recommended_actions.map((act, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs text-slate-700">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                    <div key={idx} className="flex items-center gap-2 text-xs text-slate-300">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                       <span>{act}</span>
                     </div>
                   ))}
@@ -133,7 +103,7 @@ export const SuggestionsView: React.FC<SuggestionsViewProps> = ({ profile, weakn
               <div className="pt-2 flex justify-end">
                 <button
                   onClick={() => onNavigate(sug.action_target)}
-                  className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5 active:scale-95"
+                  className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-1.5 active:scale-95"
                 >
                   <span>{sug.action_label}</span>
                   <ArrowRight className="w-3.5 h-3.5" />

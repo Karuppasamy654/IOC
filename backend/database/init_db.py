@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+from sqlalchemy import text
 from backend.database.connection import engine, Base, SessionLocal
 from backend.models.student import User, StudentProfile, StudentCompetency
 from backend.models.assessment import QuestionRecord, AssessmentSession
@@ -12,7 +12,19 @@ def init_database():
     db = SessionLocal()
 
     try:
-        # Check if already seeded
+        # Check if company column exists in SQLite
+        try:
+            db.execute(text("ALTER TABLE question_records ADD COLUMN company VARCHAR(100) DEFAULT 'Amazon'"))
+            db.commit()
+            print("Added missing 'company' column to question_records table.")
+        except Exception:
+            db.rollback()
+
+        # Re-seed or seed questions
+        db.query(QuestionRecord).delete()
+        db.commit()
+
+        print("Seeding questions...")
         if db.query(QuestionRecord).count() == 0:
             print("Seeding questions...")
             # Load DSA questions
@@ -23,6 +35,7 @@ def init_database():
                     for q in dsa_data:
                         q_rec = QuestionRecord(
                             id=q["id"],
+                            company=q.get("company", "Amazon"),
                             topic=q["topic"],
                             subtopic=q.get("subtopic"),
                             title=q["title"],
@@ -47,6 +60,7 @@ def init_database():
                     for q in core_data:
                         q_rec = QuestionRecord(
                             id=q["id"],
+                            company=q.get("company", "Amazon"),
                             topic=q["topic"],
                             subtopic=q.get("subtopic"),
                             title=q["title"],
@@ -87,95 +101,8 @@ def init_database():
                             embedding_text=f"{s['topic']} {s['weakness_type']} {s['context']} {s['strategy_name']}"
                         )
                         db.add(s_rec)
-
-        # Create demo student if not exists
-        demo_user = db.query(User).filter(User.email == "demo@placementevolve.ai").first()
-        if not demo_user:
-            print("Creating demo student...")
-            demo_user = User(
-                email="demo@placementevolve.ai",
-                name="Rahul Sharma",
-                hashed_password="demo_hashed_password"
-            )
-            db.add(demo_user)
-            db.flush()
-
-            profile = StudentProfile(
-                user_id=demo_user.id,
-                branch="Computer Science & Engineering",
-                graduation_year=2026,
-                cgpa=8.4,
-                target_role="Software Development Engineer (SDE)",
-                available_hours_per_day=3.0,
-                preparation_deadline_days=30,
-                skills=["Python", "C++", "DSA", "DBMS", "OS"],
-                preferred_subjects=["DSA", "Operating Systems", "DBMS"],
-                readiness_score=48.5
-            )
-            db.add(profile)
-
-            competencies = [
-                StudentCompetency(user_id=demo_user.id, topic="Graphs", mastery_score=35.0, concept_mastery=72.0, implementation_mastery=39.0, time_management_score=64.0, status="Critical Weakness"),
-                StudentCompetency(user_id=demo_user.id, topic="Dynamic Programming", mastery_score=42.0, concept_mastery=45.0, implementation_mastery=40.0, time_management_score=50.0, status="Needs Improvement"),
-                StudentCompetency(user_id=demo_user.id, topic="Binary Search", mastery_score=52.0, concept_mastery=65.0, implementation_mastery=50.0, time_management_score=55.0, status="Needs Improvement"),
-                StudentCompetency(user_id=demo_user.id, topic="DBMS", mastery_score=78.0, concept_mastery=82.0, implementation_mastery=75.0, time_management_score=80.0, status="Proficient"),
-                StudentCompetency(user_id=demo_user.id, topic="Operating Systems", mastery_score=45.0, concept_mastery=50.0, implementation_mastery=40.0, time_management_score=60.0, status="Needs Improvement"),
-                StudentCompetency(user_id=demo_user.id, topic="SQL", mastery_score=85.0, concept_mastery=88.0, implementation_mastery=82.0, time_management_score=85.0, status="Mastered"),
-                StudentCompetency(user_id=demo_user.id, topic="OOP", mastery_score=68.0, concept_mastery=70.0, implementation_mastery=66.0, time_management_score=70.0, status="Proficient"),
-                StudentCompetency(user_id=demo_user.id, topic="Computer Networks", mastery_score=61.0, concept_mastery=65.0, implementation_mastery=58.0, time_management_score=60.0, status="Proficient")
-            ]
-            db.add_all(competencies)
-
-            # Initial adaptive plan
-            initial_plan = AdaptivePlanSchedule(
-                user_id=demo_user.id,
-                version=1,
-                plan_title="SDE 30-Day Adaptive Placement Plan",
-                adaptation_reason="Initial baseline: Prioritizing critical weakness in Graphs & Operating Systems",
-                schedule_blocks=[
-                    {"time": "10:00 - 10:30", "topic": "Graphs", "activity": "BFS Concept & Traversal Theory", "type": "concept", "priority": "High"},
-                    {"time": "10:30 - 11:00", "topic": "Graphs", "activity": "Guided BFS Coding & Visited Handling", "type": "guided_coding", "priority": "Critical"},
-                    {"time": "11:00 - 11:30", "topic": "Graphs", "activity": "Targeted Undirected Graph Practice", "type": "practice", "priority": "High"},
-                    {"time": "11:30 - 12:00", "topic": "Operating Systems", "activity": "Deadlock & Coffman Conditions Drill", "type": "concept", "priority": "Medium"},
-                    {"time": "12:00 - 12:30", "topic": "SQL", "activity": "Window Functions Quick Assessment", "type": "assessment", "priority": "Low"},
-                    {"time": "12:30 - 01:00", "topic": "Mock OA", "activity": "Mini Mock Assessment & Review", "type": "mock_oa", "priority": "High"}
-                ],
-                total_study_minutes_per_day=180,
-                target_deadline_days=30,
-                is_active=True
-            )
-            db.add(initial_plan)
-
-            # Mistake record for Graphs visited state
-            mistake = MistakeRecord(
-                user_id=demo_user.id,
-                topic="Graphs",
-                subtopic="BFS Traversal",
-                mistake_type="visited_array_omission",
-                description="Omitted visited array update prior to queue enqueue, triggering infinite loop / duplicate expansions.",
-                occurrence_count=5,
-                status="recurring"
-            )
-            db.add(mistake)
-
-            # Readiness breakdown
-            readiness = ReadinessScoreRecord(
-                user_id=demo_user.id,
-                overall_readiness=48.5,
-                dsa_score=43.0,
-                dbms_score=78.0,
-                os_score=45.0,
-                oop_score=68.0,
-                sql_score=85.0,
-                networks_score=61.0,
-                coding_score=40.0,
-                mock_oa_score=42.0,
-                time_management_score=60.0
-            )
-            db.add(readiness)
-
         db.commit()
-        print("Database initialization complete.")
+        print("Database schema and seed question/strategy banks initialized successfully.")
     except Exception as e:
         db.rollback()
         print(f"Error initializing database: {e}")

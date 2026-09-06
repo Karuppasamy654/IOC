@@ -1,0 +1,25 @@
+# Environment & Virtualenvs
+venv/
+.venv/
+env/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Databases & local state
+*.db
+placement_evolve.db
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# IDE & OS
+.DS_Store
+Thumbs.db

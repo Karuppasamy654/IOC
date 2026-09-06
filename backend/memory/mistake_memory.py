@@ -77,6 +77,7 @@ class MistakeMemory:
                 "mistake_type": m.mistake_type,
                 "description": m.description,
                 "occurrence_count": m.occurrence_count,
+                "frequency": m.occurrence_count,
                 "status": m.status,
                 "last_occurred_at": m.last_occurred_at.isoformat() if m.last_occurred_at else None
             }

@@ -58,7 +58,7 @@ class QuestionAgent:
         recurring_mistakes = self.mistake_memory.get_recurring_mistakes(user_id, topic=topic)
         highlighted_mistake = target_mistake_type or (recurring_mistakes[0]["mistake_type"] if recurring_mistakes else None)
         mistake_summary = "; ".join(
-            [f"{m['mistake_type']} (x{m['frequency']})" for m in recurring_mistakes[:3]]
+            [f"{m['mistake_type']} (x{m.get('frequency', m.get('occurrence_count', 1))})" for m in recurring_mistakes[:3]]
         ) if recurring_mistakes else "No recurring mistakes"
 
         # Try to find a matching question in DB first

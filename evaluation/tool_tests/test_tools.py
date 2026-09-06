@@ -39,7 +39,7 @@ def test_coding_execution_tool_valid_and_invalid():
     ]
 
     res = tool.execute_python_code(valid_bfs, test_cases)
-    assert res["status"] == "accepted"
+    assert res["status"] == "ACCEPTED"
     assert res["passed"] == 2
     assert res["total"] == 2
     assert res["runtime_ms"] > 0
@@ -50,7 +50,7 @@ def test_coding_execution_tool_valid_and_invalid():
         "    return [0, 1]\n"
     )
     res_flawed = tool.execute_python_code(flawed_bfs, test_cases)
-    assert res_flawed["status"] == "wrong_answer"
+    assert res_flawed["status"] == "WRONG ANSWER"
     assert res_flawed["flaw_detected"] == "visited_array_omission"
 
 def test_resource_search_tool():

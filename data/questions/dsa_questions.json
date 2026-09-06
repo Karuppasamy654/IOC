@@ -1,6 +1,7 @@
 [
   {
     "id": "dsa-graph-bfs-01",
+    "company": "Amazon",
     "topic": "Graphs",
     "subtopic": "BFS Traversal & Shortest Path",
     "title": "Breadth First Search (BFS) Traversal in Undirected Graph",
@@ -8,155 +9,168 @@
     "type": "coding",
     "description": "Given an adjacency list of an undirected graph with V vertices (numbered 0 to V-1) and a starting vertex 0, return the BFS traversal sequence. Ensure you do not process vertices multiple times by maintaining a visited state.",
     "starter_code": {
-      "python": "def bfs_traversal(V: int, adj: list[list[int]]) -> list[int]:\n    # Write your BFS logic here\n    result = []\n    # TODO: Implement BFS with queue and visited tracker\n    return result\n",
-      "javascript": "function bfsTraversal(V, adj) {\n    // Write your BFS logic here\n    const result = [];\n    return result;\n}",
-      "cpp": "#include <vector>\n#include <queue>\nusing namespace std;\n\nvector<int> bfsTraversal(int V, vector<vector<int>>& adj) {\n    vector<int> result;\n    return result;\n}"
+      "python": "def bfs_traversal(V: int, adj: list[list[int]]) -> list[int]:\n    # Write your BFS logic here\n    result = []\n    return result\n"
     },
     "test_cases": [
-      {
-        "input": {"V": 5, "adj": [[1, 2, 3], [], [4], [], []]},
-        "expected": [0, 1, 2, 3, 4],
-        "is_hidden": false
-      },
-      {
-        "input": {"V": 4, "adj": [[1, 2], [0, 2], [0, 1, 3], [2]]},
-        "expected": [0, 1, 2, 3],
-        "is_hidden": false
-      },
-      {
-        "input": {"V": 6, "adj": [[1, 2], [0, 3, 4], [0, 5], [1], [1], [2]]},
-        "expected": [0, 1, 2, 3, 4, 5],
-        "is_hidden": true
-      },
-      {
-        "input": {"V": 3, "adj": [[1, 2], [0, 2], [0, 1]]},
-        "expected": [0, 1, 2],
-        "is_hidden": true
-      }
+      { "input": {"V": 5, "adj": [[1, 2, 3], [], [4], [], []]}, "expected": [0, 1, 2, 3, 4], "is_hidden": false },
+      { "input": {"V": 4, "adj": [[1, 2], [0, 2], [0, 1, 3], [2]]}, "expected": [0, 1, 2, 3], "is_hidden": false }
     ],
+    "options": [
+      "A) Push neighbors, then mark visited upon pop",
+      "B) Mark visited immediately when enqueued",
+      "C) Process with LIFO Stack",
+      "D) Omit visited state for tree structures"
+    ],
+    "correct_option_index": 1,
     "flaw_triggers": {
-      "visited_missing": "Infinite loop or duplicate vertex visits caused by missing or late visited-set update.",
-      "queue_order": "Vertices popped in LIFO rather than FIFO order.",
-      "zero_vertex_unhandled": "Failure on disconnected components or single vertex."
+      "visited_missing": "Infinite loop or duplicate vertex visits caused by missing or late visited-set update."
     },
     "reference_solution": {
       "python": "from collections import deque\ndef bfs_traversal(V: int, adj: list[list[int]]) -> list[int]:\n    visited = [False] * V\n    queue = deque([0])\n    visited[0] = True\n    result = []\n    while queue:\n        node = queue.popleft()\n        result.append(node)\n        for neighbor in adj[node]:\n            if not visited[neighbor]:\n                visited[neighbor] = True\n                queue.append(neighbor)\n    return result\n"
-    }
+    },
+    "explanation": "Marking a node as visited immediately when pushed into the BFS queue guarantees O(V + E) complexity."
+  },
+  {
+    "id": "dsa-graph-bfs-mcq-01",
+    "company": "Amazon",
+    "topic": "Graphs",
+    "subtopic": "BFS Queue Invariant",
+    "title": "Queue & Visited State Synchronization in Graph BFS",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "When MUST a vertex `u` be marked as `visited = true` during BFS traversal to prevent duplicate queue entries and exponential memory explosion?",
+    "options": [
+      "A) Immediately when vertex u is popped (dequeued) from the queue.",
+      "B) Immediately when vertex u is pushed (enqueued) into the queue.",
+      "C) After visiting all adjacent neighbors of u.",
+      "D) Visited array is unnecessary for undirected graphs."
+    ],
+    "correct_option_index": 1,
+    "explanation": "Marking visited upon push guarantees each vertex enters the queue at most once."
   },
   {
     "id": "dsa-bs-01",
+    "company": "Google",
     "topic": "Binary Search",
     "subtopic": "Rotated Sorted Array Search",
     "title": "Search in Rotated Sorted Array",
     "difficulty": "Medium",
     "type": "coding",
-    "description": "Given an integer array nums sorted in ascending order (with distinct values) that is possibly rotated at an unknown pivot index, return the index of target if it is in nums, or -1 if it is not.",
+    "description": "Given an integer array nums sorted in ascending order (with distinct values) that is rotated at an unknown pivot, return the index of target if present, or -1 if not.",
     "starter_code": {
-      "python": "def search_rotated(nums: list[int], target: int) -> int:\n    # Implement modified binary search\n    left, right = 0, len(nums) - 1\n    return -1\n"
+      "python": "def search_rotated(nums: list[int], target: int) -> int:\n    return -1\n"
     },
     "test_cases": [
-      {
-        "input": {"nums": [4,5,6,7,0,1,2], "target": 0},
-        "expected": 4,
-        "is_hidden": false
-      },
-      {
-        "input": {"nums": [4,5,6,7,0,1,2], "target": 3},
-        "expected": -1,
-        "is_hidden": false
-      },
-      {
-        "input": {"nums": [1], "target": 0},
-        "expected": -1,
-        "is_hidden": true
-      },
-      {
-        "input": {"nums": [6,7,1,2,3,4,5], "target": 6},
-        "expected": 0,
-        "is_hidden": true
-      }
+      { "input": {"nums": [4,5,6,7,0,1,2], "target": 0}, "expected": 4, "is_hidden": false },
+      { "input": {"nums": [4,5,6,7,0,1,2], "target": 3}, "expected": -1, "is_hidden": false }
     ],
+    "options": [
+      "A) Binary search on left sorted sub-array",
+      "B) Linear search O(N)",
+      "C) Binary search determining sorted side dynamically",
+      "D) Two-pointer search from boundaries"
+    ],
+    "correct_option_index": 2,
     "flaw_triggers": {
-      "boundary_condition": "Incorrect <= or < condition when checking sorted half.",
-      "mid_calc_overflow": "Using (low + high) / 2 rather than low + (high - low) // 2."
+      "boundary_condition": "Incorrect <= or < condition when checking sorted half."
     },
-    "reference_solution": {
-      "python": "def search_rotated(nums: list[int], target: int) -> int:\n    low, high = 0, len(nums) - 1\n    while low <= high:\n        mid = low + (high - low) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[low] <= nums[mid]:\n            if nums[low] <= target < nums[mid]:\n                high = mid - 1\n            else:\n                low = mid + 1\n        else:\n            if nums[mid] < target <= nums[high]:\n                low = mid + 1\n            else:\n                high = mid - 1\n    return -1\n"
-    }
+    "explanation": "Identify which half of array (left or right) is strictly sorted, then adjust binary search bounds in O(log N) time."
   },
   {
     "id": "dsa-dp-01",
+    "company": "Amazon",
     "topic": "Dynamic Programming",
-    "subtopic": "0/1 Knapsack & Coin Change",
-    "title": "Coin Change - Minimum Coins",
-    "difficulty": "Medium",
+    "subtopic": "Coin Change Minimum Coins",
+    "title": "Coin Change - Minimum Coins Required",
+    "difficulty": "Hard",
     "type": "coding",
-    "description": "Given an integer array coins representing coins of different denominations and an integer amount, return the fewest number of coins that you need to make up that amount. If that amount cannot be made up, return -1.",
+    "description": "Given an integer array coins representing coin denominations and an amount, return the fewest number of coins needed to make up that amount. If impossible, return -1.",
     "starter_code": {
-      "python": "def coin_change(coins: list[int], amount: int) -> int:\n    # DP coin change\n    return -1\n"
+      "python": "def coin_change(coins: list[int], amount: int) -> int:\n    return -1\n"
     },
     "test_cases": [
-      {
-        "input": {"coins": [1, 2, 5], "amount": 11},
-        "expected": 3,
-        "is_hidden": false
-      },
-      {
-        "input": {"coins": [2], "amount": 3},
-        "expected": -1,
-        "is_hidden": false
-      },
-      {
-        "input": {"coins": [1], "amount": 0},
-        "expected": 0,
-        "is_hidden": true
-      },
-      {
-        "input": {"coins": [186, 419, 83, 408], "amount": 6249},
-        "expected": 20,
-        "is_hidden": true
-      }
+      { "input": {"coins": [1, 2, 5], "amount": 11}, "expected": 3, "is_hidden": false },
+      { "input": {"coins": [2], "amount": 3}, "expected": -1, "is_hidden": false }
     ],
-    "flaw_triggers": {
-      "unbounded_initialization": "Initializing DP table with 0 or amount instead of infinity.",
-      "greedy_pitfall": "Using greedy coin selection instead of optimal bottom-up DP."
-    },
-    "reference_solution": {
-      "python": "def coin_change(coins: list[int], amount: int) -> int:\n    dp = [float('inf')] * (amount + 1)\n    dp[0] = 0\n    for coin in coins:\n        for x in range(coin, amount + 1):\n            dp[x] = min(dp[x], dp[x - coin] + 1)\n    return dp[amount] if dp[amount] != float('inf') else -1\n"
-    }
+    "options": [
+      "A) Greedy selection of largest coin",
+      "B) Bottom-up DP array initialized to Infinity",
+      "C) Recursive DFS without memoization",
+      "D) Priority Queue Dijkstra"
+    ],
+    "correct_option_index": 1,
+    "explanation": "Bottom-up DP table `dp[x] = min(dp[x], dp[x - coin] + 1)` resolves subproblems in O(Amount * N) time."
   },
   {
-    "id": "dsa-mcq-01",
+    "id": "dsa-mcq-google-01",
+    "company": "Google",
     "topic": "Graphs",
-    "subtopic": "Graph BFS Theory",
-    "title": "BFS Time and Space Complexity Analysis",
+    "subtopic": "Topological Sort",
+    "title": "Kahn's Algorithm In-degree Queue Invariant",
+    "difficulty": "Hard",
+    "type": "mcq",
+    "description": "In Kahn's algorithm for Topological Sorting of a Directed Acyclic Graph (DAG), which vertices are initially pushed into the processing queue?",
+    "options": [
+      "A) Vertices with in-degree equal to 0.",
+      "B) Vertices with out-degree equal to 0.",
+      "C) Vertices with maximum in-degree.",
+      "D) Any arbitrary vertex in the graph."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Vertices with in-degree 0 have no incoming dependency constraints and can be ordered first safely."
+  },
+  {
+    "id": "dsa-mcq-tcs-01",
+    "company": "TCS Digital",
+    "topic": "Arrays & Strings",
+    "subtopic": "Two Pointers Strategy",
+    "title": "Container With Most Water",
     "difficulty": "Easy",
     "type": "mcq",
-    "description": "What is the worst-case time complexity of Breadth-First Search on a graph with V vertices and E edges represented using an Adjacency List?",
+    "description": "Given n non-negative integers representing heights, which pointer moving strategy maximizes container area in O(N) time?",
     "options": [
-      "O(V^2)",
-      "O(V + E)",
-      "O(E * log V)",
-      "O(V * E)"
+      "A) Move the pointer with smaller height inwards.",
+      "B) Move the pointer with larger height inwards.",
+      "C) Move both pointers simultaneously inwards.",
+      "D) Reset pointers to middle."
     ],
-    "correct_option_index": 1,
-    "explanation": "BFS visits every vertex once (O(V)) and explores each edge once in directed graph or twice in undirected graph (O(E)). Thus time complexity is O(V + E)."
+    "correct_option_index": 0,
+    "explanation": "Moving the smaller height pointer offers potential to find a taller line to compensate for shrinking width."
   },
   {
-    "id": "dsa-mcq-02",
-    "topic": "Graphs",
-    "subtopic": "Cycle Detection in Undirected Graph",
-    "title": "Cycle Detection Mechanism",
+    "id": "dsa-mcq-infosys-01",
+    "company": "Infosys SP",
+    "topic": "Trees",
+    "subtopic": "Binary Search Tree Invariants",
+    "title": "Inorder Traversal of BST",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "Which tree traversal algorithm produces node values in strictly ascending sorted order for a valid Binary Search Tree (BST)?",
+    "options": [
+      "A) Preorder Traversal (Root, Left, Right)",
+      "B) Postorder Traversal (Left, Right, Root)",
+      "C) Inorder Traversal (Left, Root, Right)",
+      "D) Level-Order Traversal (BFS)"
+    ],
+    "correct_option_index": 2,
+    "explanation": "Inorder traversal visits Left Subtree (< Root), Root, then Right Subtree (> Root), giving sorted order."
+  },
+  {
+    "id": "dsa-mcq-msft-01",
+    "company": "Microsoft",
+    "topic": "Dynamic Programming",
+    "subtopic": "Longest Common Subsequence",
+    "title": "LCS DP State Recurrence",
     "difficulty": "Medium",
     "type": "mcq",
-    "description": "In an undirected graph BFS, when can we conclude that a cycle exists?",
+    "description": "For strings text1 and text2, if character `text1[i-1] == text2[j-1]`, what is the correct DP state update for `dp[i][j]`?",
     "options": [
-      "When we encounter any visited vertex regardless of parent.",
-      "When an adjacent node is already visited and is NOT the parent of the current node.",
-      "When the queue size exceeds V.",
-      "When the degree of any vertex is greater than 2."
+      "A) dp[i][j] = dp[i-1][j-1] + 1",
+      "B) dp[i][j] = max(dp[i-1][j], dp[i][j-1])",
+      "C) dp[i][j] = dp[i-1][j] + dp[i][j-1]",
+      "D) dp[i][j] = dp[i][j-1] + 1"
     ],
-    "correct_option_index": 1,
-    "explanation": "If an adjacent vertex is already visited and is not the immediate parent from which we came, it indicates an alternate path / back-edge, proving a cycle."
+    "correct_option_index": 0,
+    "explanation": "When characters match, 1 is added to the LCS of the remaining prefixes `dp[i-1][j-1]`."
   }
 ]

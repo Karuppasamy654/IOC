@@ -65,7 +65,7 @@ class WeaknessDiagnosisAgent:
         # Retrieve mistake history for richer context
         recent_mistakes = self.mistake_memory.get_recurring_mistakes(user_id, topic=topic)
         mistake_summary = "; ".join(
-            [f"{m['mistake_type']} (x{m['frequency']})" for m in recent_mistakes[:3]]
+            [f"{m['mistake_type']} (x{m.get('frequency', m.get('occurrence_count', 1))})" for m in recent_mistakes[:3]]
         ) if recent_mistakes else "No prior recorded mistakes"
 
         # --- Gemini LLM Diagnosis ---

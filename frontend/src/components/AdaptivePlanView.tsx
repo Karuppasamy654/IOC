@@ -82,18 +82,18 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
   return (
     <div className="space-y-6">
       {/* 1. Header Banner */}
-      <div className="saas-card p-6 bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="glass-card p-6 border border-white/15 bg-gradient-to-r from-indigo-950/70 via-slate-900/80 to-slate-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/80">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold subtle-badge-indigo">
               Personalized 30-Day Roadmap
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold subtle-badge-emerald">
               Plan v{activeVersion} Active
             </span>
           </div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">Placement Preparation Roadmap & Schedule</h2>
-          <p className="text-xs text-slate-600 font-medium mt-0.5">
+          <h2 className="text-xl font-black text-white tracking-tight">Placement Preparation Roadmap & Schedule</h2>
+          <p className="text-xs text-slate-300 font-medium mt-0.5">
             Dynamically adapted by Agent 8 (Adaptive Planner) based on your target company assessment style and diagnosed performance gaps.
           </p>
         </div>
@@ -101,7 +101,7 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
         <button
           onClick={onTriggerReplan}
           disabled={isReplanning}
-          className="flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all active:scale-95 disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg shadow-indigo-500/25 transition-all active:scale-95 disabled:opacity-50 border border-indigo-400/30"
         >
           {isReplanning ? (
             <RefreshCw className="w-4 h-4 animate-spin text-white" />
@@ -113,10 +113,10 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
       </div>
 
       {/* 2. Plan Version Switcher */}
-      <div className="saas-card p-4 flex flex-wrap items-center justify-between gap-3">
+      <div className="glass-card p-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
-            <History className="w-4 h-4 text-indigo-600" /> Plan Version History:
+          <span className="text-xs font-bold text-slate-300 flex items-center gap-1">
+            <History className="w-4 h-4 text-indigo-400" /> Plan Version History:
           </span>
           {planHistory.map((p) => {
             const isSelected =
@@ -125,10 +125,10 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
               <button
                 key={p.id || p.version}
                 onClick={() => setSelectedPlanVersion(p.version)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   isSelected
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                    ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/25 border border-indigo-400/40'
+                    : 'glass-panel text-slate-300 hover:bg-slate-800 border border-white/10'
                 }`}
               >
                 Plan v{p.version} {p.version === activeVersion && '(Active)'}
@@ -137,91 +137,91 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
           })}
         </div>
 
-        <span className="text-xs text-slate-500 font-medium">
-          Showing: <span className="font-bold text-slate-800">Plan v{displayedPlan?.version || activeVersion}</span>
+        <span className="text-xs text-slate-400 font-medium">
+          Showing: <span className="font-bold text-white">Plan v{displayedPlan?.version || activeVersion}</span>
         </span>
       </div>
 
       {/* 3. Decision Rationale Explanation (Structured Format) */}
-      <div className="saas-card p-5 border-l-4 border-l-indigo-600 space-y-3 bg-gradient-to-r from-indigo-50/40 via-white to-white">
+      <div className="glass-card p-5 border-l-4 border-l-indigo-500 space-y-3 bg-gradient-to-r from-indigo-950/40 via-slate-900/80 to-slate-900/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-600" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900">
+            <Sparkles className="w-4 h-4 text-indigo-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-200">
               Adaptive Planner Decision Explanation (Plan v{displayedPlan?.version || activeVersion})
             </h3>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">
+          <span className="text-[10px] font-bold subtle-badge-indigo px-2 py-0.5 rounded">
             Closed-Loop Agent Decision
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
-          <div className="p-3 rounded-lg bg-white border border-slate-200 space-y-1">
-            <span className="font-bold text-slate-500 uppercase text-[10px] block">Observation</span>
-            <p className="font-semibold text-slate-800 leading-snug">{adaptationRationale.observation}</p>
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
+            <span className="font-bold text-slate-400 uppercase text-[10px] block">Observation</span>
+            <p className="font-semibold text-slate-200 leading-snug">{adaptationRationale.observation}</p>
           </div>
 
-          <div className="p-3 rounded-lg bg-white border border-slate-200 space-y-1">
-            <span className="font-bold text-indigo-600 uppercase text-[10px] block">Decision</span>
-            <p className="font-semibold text-slate-800 leading-snug">{adaptationRationale.decision}</p>
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
+            <span className="font-bold text-indigo-400 uppercase text-[10px] block">Decision</span>
+            <p className="font-semibold text-slate-200 leading-snug">{adaptationRationale.decision}</p>
           </div>
 
-          <div className="p-3 rounded-lg bg-white border border-slate-200 space-y-1">
-            <span className="font-bold text-emerald-600 uppercase text-[10px] block">Action</span>
-            <p className="font-semibold text-slate-800 leading-snug">{adaptationRationale.action}</p>
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
+            <span className="font-bold text-emerald-400 uppercase text-[10px] block">Action</span>
+            <p className="font-semibold text-slate-200 leading-snug">{adaptationRationale.action}</p>
           </div>
 
-          <div className="p-3 rounded-lg bg-white border border-slate-200 space-y-1">
-            <span className="font-bold text-amber-600 uppercase text-[10px] block">Reason</span>
-            <p className="font-semibold text-slate-800 leading-snug">{adaptationRationale.reason}</p>
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
+            <span className="font-bold text-amber-400 uppercase text-[10px] block">Reason</span>
+            <p className="font-semibold text-slate-200 leading-snug">{adaptationRationale.reason}</p>
           </div>
 
-          <div className="p-3 rounded-lg bg-white border border-slate-200 space-y-1">
-            <span className="font-bold text-blue-600 uppercase text-[10px] block">Expected Outcome</span>
-            <p className="font-semibold text-slate-800 leading-snug">{adaptationRationale.outcome}</p>
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
+            <span className="font-bold text-blue-400 uppercase text-[10px] block">Expected Outcome</span>
+            <p className="font-semibold text-slate-200 leading-snug">{adaptationRationale.outcome}</p>
           </div>
         </div>
       </div>
 
       {/* 4. Priority Shift Comparison Matrix */}
-      <div className="saas-card p-5 space-y-3">
-        <h3 className="text-sm font-bold text-slate-900">Topic Priority Adaptation Matrix</h3>
+      <div className="glass-card p-5 space-y-3">
+        <h3 className="text-sm font-bold text-white">Topic Priority Adaptation Matrix</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
             <div className="flex justify-between font-bold">
-              <span className="text-slate-800">Graphs (BFS/DFS)</span>
-              <span className="text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">High ➔ Medium</span>
+              <span className="text-white">Graphs (BFS/DFS)</span>
+              <span className="subtle-badge-emerald px-1.5 py-0.5 rounded">High ➔ Medium</span>
             </div>
-            <p className="text-[11px] text-slate-600">Reassessment score reached 68%. Shifted to maintenance practice.</p>
+            <p className="text-[11px] text-slate-300">Reassessment score reached 68%. Shifted to maintenance practice.</p>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
             <div className="flex justify-between font-bold">
-              <span className="text-slate-800">Operating Systems</span>
-              <span className="text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded">Low ➔ High Priority</span>
+              <span className="text-white">Operating Systems</span>
+              <span className="subtle-badge-rose px-1.5 py-0.5 rounded">Low ➔ High Priority</span>
             </div>
-            <p className="text-[11px] text-slate-600">Assessment score 45% with deadlock flaws. Allocated +45 mins daily.</p>
+            <p className="text-[11px] text-slate-300">Assessment score 45% with deadlock flaws. Allocated +45 mins daily.</p>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-1">
+          <div className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1">
             <div className="flex justify-between font-bold">
-              <span className="text-slate-800">SQL Output Questions</span>
-              <span className="text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">Medium ➔ High</span>
+              <span className="text-white">SQL Output Questions</span>
+              <span className="subtle-badge-amber px-1.5 py-0.5 rounded">Medium ➔ High</span>
             </div>
-            <p className="text-[11px] text-slate-600">Target company assessment pattern assigns 20% weight to SQL queries.</p>
+            <p className="text-[11px] text-slate-300">Target company assessment pattern assigns 20% weight to SQL queries.</p>
           </div>
         </div>
       </div>
 
       {/* 5. 30-Day Placement Roadmap Breakdown */}
-      <div className="saas-card p-6 space-y-6">
-        <div className="border-b border-slate-200 pb-3 flex items-center justify-between">
+      <div className="glass-card p-6 space-y-6">
+        <div className="border-b border-white/10 pb-3 flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900">30-Day Dynamic Placement Roadmap</h3>
-            <p className="text-xs text-slate-500">Curriculum topics organized by preparation week and company relevance</p>
+            <h3 className="text-base font-bold text-white">30-Day Dynamic Placement Roadmap</h3>
+            <p className="text-xs text-slate-400">Curriculum topics organized by preparation week and company relevance</p>
           </div>
-          <span className="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200">
+          <span className="text-xs font-bold subtle-badge-indigo px-3 py-1 rounded-xl">
             Total 30 Days Schedule
           </span>
         </div>
@@ -229,18 +229,18 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
         <div className="space-y-6">
           {roadmapWeeks.map((week, idx) => (
             <div key={idx} className="space-y-3">
-              <div className="flex items-center justify-between bg-slate-100/80 px-4 py-2 rounded-lg border border-slate-200">
+              <div className="flex items-center justify-between glass-panel px-4 py-2.5 rounded-xl border border-white/10">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-slate-900 text-xs sm:text-sm">{week.week}</span>
-                  <span className="text-xs text-slate-500 font-mono">({week.days})</span>
+                  <span className="font-bold text-white text-xs sm:text-sm">{week.week}</span>
+                  <span className="text-xs text-slate-400 font-mono">({week.days})</span>
                 </div>
                 <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                  className={`text-[10px] font-bold px-2.5 py-1 rounded-lg ${
                     week.status === 'Completed'
-                      ? 'bg-emerald-100 text-emerald-800'
+                      ? 'subtle-badge-emerald'
                       : week.status === 'Active (Current)'
-                      ? 'bg-indigo-100 text-indigo-800'
-                      : 'bg-slate-200 text-slate-700'
+                      ? 'subtle-badge-indigo'
+                      : 'subtle-badge-slate'
                   }`}
                 >
                   {week.status}
@@ -249,13 +249,13 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pl-2">
                 {week.topics.map((t, tidx) => (
-                  <div key={tidx} className="p-3 rounded-lg border border-slate-200 bg-white space-y-1 hover:border-indigo-300 transition-all">
+                  <div key={tidx} className="p-3.5 rounded-xl glass-panel border border-white/10 space-y-1.5 hover:border-indigo-400/40 transition-all">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-slate-800">{t.name}</span>
+                      <span className="font-bold text-slate-100">{t.name}</span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] text-slate-500">
-                      <span className="bg-slate-100 px-1.5 py-0.5 rounded">{t.type}</span>
-                      <span className="font-semibold text-indigo-600">{t.companyPattern}</span>
+                    <div className="flex items-center justify-between text-[10px] text-slate-400">
+                      <span className="glass-panel px-2 py-0.5 rounded border border-white/5">{t.type}</span>
+                      <span className="font-semibold text-indigo-300">{t.companyPattern}</span>
                     </div>
                   </div>
                 ))}

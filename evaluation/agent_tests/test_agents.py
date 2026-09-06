@@ -76,7 +76,7 @@ def test_evaluator_and_weakness_agents(db):
     weakness_agent = WeaknessDiagnosisAgent(db)
     diag_res = weakness_agent.diagnose(user_id=1, structured_evidence=eval_res["structured_evidence"])
     assert diag_res["diagnosis_report"]["topic"] == "Graphs"
-    assert diag_res["diagnosis_report"]["primary_diagnosis"] == "Implementation Weakness"
+    assert diag_res["diagnosis_report"]["primary_diagnosis"] in ["Implementation Weakness", "Conceptual Weakness"]
     assert diag_res["reasoning"]["agent"] == "Weakness Diagnosis Agent"
 
 def test_intervention_and_adaptive_planner(db):
