@@ -12,12 +12,66 @@
       "python": "def bfs_traversal(V: int, adj: list[list[int]]) -> list[int]:\n    # Write your BFS logic here\n    result = []\n    return result\n"
     },
     "test_cases": [
-      { "input": {"V": 5, "adj": [[1, 2, 3], [], [4], [], []]}, "expected": [0, 1, 2, 3, 4], "is_hidden": false },
-      { "input": {"V": 4, "adj": [[1, 2], [0, 2], [0, 1, 3], [2]]}, "expected": [0, 1, 2, 3], "is_hidden": false }
+      {
+        "input": {
+          "V": 5,
+          "adj": [
+            [
+              1,
+              2,
+              3
+            ],
+            [],
+            [
+              4
+            ],
+            [],
+            []
+          ]
+        },
+        "expected": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "is_hidden": false
+      },
+      {
+        "input": {
+          "V": 4,
+          "adj": [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              1,
+              3
+            ],
+            [
+              2
+            ]
+          ]
+        },
+        "expected": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "is_hidden": false
+      }
     ],
     "options": [
       "A) Push neighbors, then mark visited upon pop",
-      "B) Mark visited immediately when enqueued",
+      "B) Mark visited immediately when enqueued into the BFS queue",
       "C) Process with LIFO Stack",
       "D) Omit visited state for tree structures"
     ],
@@ -61,8 +115,38 @@
       "python": "def search_rotated(nums: list[int], target: int) -> int:\n    return -1\n"
     },
     "test_cases": [
-      { "input": {"nums": [4,5,6,7,0,1,2], "target": 0}, "expected": 4, "is_hidden": false },
-      { "input": {"nums": [4,5,6,7,0,1,2], "target": 3}, "expected": -1, "is_hidden": false }
+      {
+        "input": {
+          "nums": [
+            4,
+            5,
+            6,
+            7,
+            0,
+            1,
+            2
+          ],
+          "target": 0
+        },
+        "expected": 4,
+        "is_hidden": false
+      },
+      {
+        "input": {
+          "nums": [
+            4,
+            5,
+            6,
+            7,
+            0,
+            1,
+            2
+          ],
+          "target": 3
+        },
+        "expected": -1,
+        "is_hidden": false
+      }
     ],
     "options": [
       "A) Binary search on left sorted sub-array",
@@ -89,8 +173,28 @@
       "python": "def coin_change(coins: list[int], amount: int) -> int:\n    return -1\n"
     },
     "test_cases": [
-      { "input": {"coins": [1, 2, 5], "amount": 11}, "expected": 3, "is_hidden": false },
-      { "input": {"coins": [2], "amount": 3}, "expected": -1, "is_hidden": false }
+      {
+        "input": {
+          "coins": [
+            1,
+            2,
+            5
+          ],
+          "amount": 11
+        },
+        "expected": 3,
+        "is_hidden": false
+      },
+      {
+        "input": {
+          "coins": [
+            2
+          ],
+          "amount": 3
+        },
+        "expected": -1,
+        "is_hidden": false
+      }
     ],
     "options": [
       "A) Greedy selection of largest coin",
@@ -172,5 +276,1064 @@
     ],
     "correct_option_index": 0,
     "explanation": "When characters match, 1 is added to the LCS of the remaining prefixes `dp[i-1][j-1]`."
+  },
+  {
+    "id": "dsa-graph-dijkstra-01",
+    "company": "Amazon",
+    "topic": "Graphs",
+    "subtopic": "Shortest Path & Priority Queue",
+    "title": "Dijkstra's Algorithm Priority Queue Invariant",
+    "difficulty": "Hard",
+    "type": "mcq",
+    "description": "Why does Dijkstra's algorithm fail to guarantee shortest paths when a weighted directed graph contains negative edge weights?",
+    "options": [
+      "A) Priority Queue ordering assumes non-decreasing path distance additions, so popping a node marks its final shortest distance.",
+      "B) Priority Queue cannot handle floating point numbers.",
+      "C) Dijkstra's algorithm uses BFS queue which ignores weights.",
+      "D) Negative edges cause immediate stack overflow."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Dijkstra assumes adding non-negative edges can never shorten an existing path. Negative weights break this greedy invariant."
+  },
+  {
+    "id": "dsa-trees-lca-01",
+    "company": "Google",
+    "topic": "Trees",
+    "subtopic": "Lowest Common Ancestor",
+    "title": "Lowest Common Ancestor of Binary Tree",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "When finding the Lowest Common Ancestor (LCA) of nodes p and q in a Binary Tree using recursive DFS, what condition indicates that the current node is the LCA?",
+    "options": [
+      "A) Both left and right recursive DFS subtree calls return non-null node pointers.",
+      "B) Left DFS returns null while right DFS returns non-null.",
+      "C) The current node value equals p.val + q.val.",
+      "D) The height of the left subtree equals the right subtree."
+    ],
+    "correct_option_index": 0,
+    "explanation": "If both left and right recursive calls find p and q in separate branches, the current parent node is their LCA."
+  },
+  {
+    "id": "dsa-arrays-sliding-01",
+    "company": "Microsoft",
+    "topic": "Arrays & Strings",
+    "subtopic": "Sliding Window",
+    "title": "Longest Substring Without Repeating Characters",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "In the sliding window approach for 'Longest Substring Without Repeating Characters', how does the left pointer `left` adjust when character `s[right]` is repeated at index `prev_idx`?",
+    "options": [
+      "A) left = max(left, prev_idx + 1)",
+      "B) left = 0",
+      "C) left = right",
+      "D) left = left + 2"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Taking max(left, prev_idx + 1) prevents moving the left boundary backwards when encountering a repeated character outside the active window."
+  },
+  {
+    "id": "dsa-dp-knapsack-01",
+    "company": "Flipkart",
+    "topic": "Dynamic Programming",
+    "subtopic": "0/1 Knapsack Problem",
+    "title": "0/1 Knapsack Space Optimization",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "When reducing 0/1 Knapsack DP space complexity from O(N * W) to O(W) using a 1D array `dp[w]`, why MUST the weight loop iterate BACKWARDS from W down to item weight?",
+    "options": [
+      "A) To ensure each item is used at most ONCE, avoiding overwriting values required from the previous item state.",
+      "B) Iterating backwards reduces time complexity to O(W).",
+      "C) Backwards iteration permits unbounded item re-use.",
+      "D) Forward iteration results in negative index exceptions."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Iterating backwards ensures `dp[w - weight]` references the state from the previous item decision, maintaining the 0/1 constraint."
+  },
+  {
+    "id": "dsa-linkedlist-cycle-01",
+    "company": "Meta",
+    "topic": "Linked Lists",
+    "subtopic": "Fast & Slow Pointers",
+    "title": "Floyd's Cycle Finding Algorithm in Linked List",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "In Floyd's Cycle-Finding algorithm (Tortoise and Hare), if a cycle of length C exists in a linked list, why are the fast (2 steps) and slow (1 step) pointers guaranteed to meet inside the loop?",
+    "options": [
+      "A) The relative distance between fast and slow pointers decreases by 1 step in every iteration.",
+      "B) Fast pointer resets to head upon reaching null.",
+      "C) Slow pointer moves backwards when cycle is detected.",
+      "D) Linked list nodes are stored sequentially in physical memory."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Since fast moves 2 steps and slow moves 1 step per turn, the distance between them contracts by 1 each step, ensuring a match within C iterations."
+  },
+  {
+    "id": "dsa-stack-monotone-01",
+    "company": "Google",
+    "topic": "Stack & Queue",
+    "subtopic": "Monotonic Stack",
+    "title": "Next Greater Element Using Monotonic Stack",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "To find the Next Greater Element for each element in an array in O(N) time, which type of monotonic stack structure should be maintained?",
+    "options": [
+      "A) Monotonically decreasing stack storing indices of elements.",
+      "B) Monotonically increasing stack storing maximum elements only.",
+      "C) Priority Queue ordered by arrival time.",
+      "D) Double-ended Queue popping from both ends."
+    ],
+    "correct_option_index": 0,
+    "explanation": "A monotonically decreasing stack keeps elements waiting until a strictly larger element arrives, popping smaller elements and resolving their Next Greater value in O(N) overall."
+  },
+  {
+    "id": "dsa-trie-prefix-01",
+    "company": "Amazon",
+    "topic": "Trees",
+    "subtopic": "Trie (Prefix Tree)",
+    "title": "Autocomplete & Prefix Matching Trie Complexity",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "What is the time complexity of searching for a word of length L in a Trie containing N words with a total character count of M?",
+    "options": [
+      "A) O(L) time, independent of total words N in the Trie.",
+      "B) O(N * L) linear scan time.",
+      "C) O(log N) binary search time.",
+      "D) O(M) time traversing all nodes."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Trie lookups follow character pointers level-by-level, completing search in O(L) steps regardless of total vocabulary size N."
+  },
+  {
+    "id": "dsa-sys-rate-limiter-01",
+    "company": "Meta",
+    "topic": "System Design",
+    "subtopic": "Rate Limiting & Token Bucket",
+    "title": "Token Bucket Rate Limiter Algorithm",
+    "difficulty": "Hard",
+    "type": "mcq",
+    "description": "In distributed system design, which rate limiting algorithm allows bursty incoming HTTP traffic while maintaining a constant average rate limit without dropping requests unnecessarily?",
+    "options": [
+      "A) Token Bucket Algorithm",
+      "B) Fixed Window Counter",
+      "C) Strict Leaky Bucket with zero capacity",
+      "D) Round Robin Load Balancing"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Token Bucket holds up to B tokens; requests consume tokens instantly when available, accommodating bursts up to bucket capacity B."
+  },
+  {
+    "id": "dsa-apt-work-time-01",
+    "company": "TCS Digital",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Time & Work Ratios",
+    "title": "Combined Work Completion Time",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "Person A completes a coding task in 10 hours. Person B completes the same task in 15 hours. How many hours will it take to complete the task if A and B work together?",
+    "options": [
+      "A) 6 hours",
+      "B) 8 hours",
+      "C) 12.5 hours",
+      "D) 5 hours"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Combined rate = 1/10 + 1/15 = 5/60 = 1/6 task per hour. Total time = 6 hours."
+  },
+  {
+    "id": "dsa-apt-prob-01",
+    "company": "Wipro",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Probability & Combinatorics",
+    "title": "Probability of Drawing Cards",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "Two fair 6-sided dice are rolled simultaneously. What is the probability that the sum of the numbers on the top faces equals 7?",
+    "options": [
+      "A) 1/6 (6 out of 36 outcomes)",
+      "B) 1/12 (3 out of 36 outcomes)",
+      "C) 7/36",
+      "D) 5/36"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Outcomes giving sum 7 are (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). Total outcomes = 36. Probability = 6/36 = 1/6."
+  },
+  {
+    "id": "dsa-fk-01",
+    "company": "Flipkart",
+    "topic": "Arrays & Strings",
+    "subtopic": "Subarray Sum Equals K",
+    "title": "Subarray Sum Equals K Prefix Map Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Given an array of integers nums and an integer k, return the total number of continuous subarrays whose sum equals to k using a hash map storing prefix sum frequencies.",
+    "options": [
+      "A) Hash map storing frequency of prefix sums in O(N) time.",
+      "B) Nested loops in O(N^3) time.",
+      "C) Sorting in O(N log N) time with two pointers.",
+      "D) Dynamic Programming with 2D matrix."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Accumulating prefix sum current_sum and checking prefix_counts[current_sum - k] yields O(N) time complexity."
+  },
+  {
+    "id": "dsa-acc-01",
+    "company": "Accenture",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Speed, Distance & Time",
+    "title": "Relative Speed of Two Moving Trains",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "Two trains 120m and 80m long run in opposite directions at 40 km/h and 50 km/h respectively. How long will it take for them to completely cross each other?",
+    "options": [
+      "A) 8 seconds",
+      "B) 10 seconds",
+      "C) 12 seconds",
+      "D) 15 seconds"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Total distance = 120 + 80 = 200m. Relative speed = 40 + 50 = 90 km/h = 25 m/s. Time = 200 / 25 = 8 seconds."
+  },
+  {
+    "id": "dsa-wipro-01",
+    "company": "Wipro",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Percentages & Profit Loss",
+    "title": "Percentage Profit on Cost Price",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "If the cost price of 15 articles is equal to the selling price of 12 articles, what is the profit percentage?",
+    "options": [
+      "A) 25%",
+      "B) 20%",
+      "C) 30%",
+      "D) 15%"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Profit per article = (15 - 12) / 12 * 100 = 3/12 * 100 = 25%."
+  },
+  {
+    "id": "dsa-inf-02",
+    "company": "Infosys SP",
+    "topic": "Graphs",
+    "subtopic": "Dijkstra Shortest Path",
+    "title": "Dijkstra Priority Queue Min-Heap Complexity",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "In Dijkstra's algorithm implemented with an adjacency list and binary min-heap priority queue, what is the tight worst-case time complexity?",
+    "options": [
+      "A) O((V + E) log V)",
+      "B) O(V^2)",
+      "C) O(E^2)",
+      "D) O(V * E)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Extracting minimum distance vertices and relaxing adjacent edges using a binary min-heap takes O((V + E) log V) total operations."
+  },
+  {
+    "id": "dsa-msft-02",
+    "company": "Microsoft",
+    "topic": "Trees",
+    "subtopic": "Binary Tree Level Order Traversal",
+    "title": "BFS Level-Order Traversal Queue State",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Which data structure is required to implement level-order traversal of a binary tree iteratively?",
+    "options": [
+      "A) Queue (FIFO)",
+      "B) Stack (LIFO)",
+      "C) Priority Queue",
+      "D) Hash Set"
+    ],
+    "correct_option_index": 0,
+    "explanation": "A FIFO queue ensures nodes at depth `d` are completely processed before nodes at depth `d + 1` are evaluated."
+  },
+  {
+    "id": "dsa-meta-02",
+    "company": "Meta",
+    "topic": "Arrays & Strings",
+    "subtopic": "Product of Array Except Self",
+    "title": "Prefix & Suffix Product Array Without Division",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Given an integer array nums, return an array output such that output[i] equals the product of all elements except nums[i], without using the division operation in O(N) time.",
+    "options": [
+      "A) Multiply prefix products and suffix products in two sequential passes.",
+      "B) Nested iteration over all array pairs in O(N^2) time.",
+      "C) Divide total product by each element.",
+      "D) Convert elements to logarithmic domain."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Computing prefix products in a left-to-right pass and accumulating suffix products in a right-to-left pass achieves O(N) time and O(1) extra space."
+  },
+  {
+    "id": "dsa-graph-easy-01",
+    "company": "Amazon",
+    "topic": "Graphs",
+    "subtopic": "Graph Representation",
+    "title": "Adjacency Matrix vs Adjacency List Space Complexity",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "What is the space complexity of storing a graph with V vertices and E edges using an Adjacency List versus an Adjacency Matrix?",
+    "options": [
+      "A) Adjacency List: O(V + E), Adjacency Matrix: O(V^2)",
+      "B) Adjacency List: O(V^2), Adjacency Matrix: O(V + E)",
+      "C) Both use O(V * E) space",
+      "D) Adjacency List: O(E^2), Adjacency Matrix: O(V)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "An adjacency list stores vertices and edge connections using O(V + E) space, whereas an adjacency matrix requires a V x V grid taking O(V^2) memory."
+  },
+  {
+    "id": "dsa-graph-easy-02",
+    "company": "TCS Digital",
+    "topic": "Graphs",
+    "subtopic": "DFS Traversal",
+    "title": "Depth First Search (DFS) Stack Data Structure",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "Which data structure is naturally used by recursive Depth First Search (DFS) to manage vertex exploration?",
+    "options": [
+      "A) Call Stack (LIFO)",
+      "B) Queue (FIFO)",
+      "C) Priority Queue",
+      "D) Binary Search Tree"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Recursive DFS relies on the call stack (LIFO) to track deep paths before backtracking."
+  },
+  {
+    "id": "dsa-graph-med-01",
+    "company": "Google",
+    "topic": "Graphs",
+    "subtopic": "Bipartite Graph Check",
+    "title": "Checking if a Graph is Bipartite (2-Coloring)",
+    "difficulty": "Medium",
+    "type": "coding",
+    "description": "Given an undirected graph with V vertices represented as an adjacency list, return true if the graph is bipartite (can be colored with 2 colors such that no adjacent nodes have the same color), or false otherwise.",
+    "starter_code": {
+      "python": "def is_bipartite(V: int, adj: list[list[int]]) -> bool:\n    return True\n"
+    },
+    "test_cases": [
+      {
+        "input": {
+          "V": 4,
+          "adj": [
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        },
+        "expected": true,
+        "is_hidden": false
+      },
+      {
+        "input": {
+          "V": 3,
+          "adj": [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "expected": false,
+        "is_hidden": false
+      }
+    ],
+    "options": [
+      "A) BFS 2-coloring assigning color 1 - c to neighbors",
+      "B) Count total edges",
+      "C) Topological sort degree reduction",
+      "D) Binary search on vertex degrees"
+    ],
+    "correct_option_index": 0,
+    "reference_solution": {
+      "python": "from collections import deque\ndef is_bipartite(V: int, adj: list[list[int]]) -> bool:\n    color = [-1] * V\n    for i in range(V):\n        if color[i] == -1:\n            queue = deque([i])\n            color[i] = 0\n            while queue:\n                u = queue.popleft()\n                for v in adj[u]:\n                    if color[v] == -1:\n                        color[v] = 1 - color[u]\n                        queue.append(v)\n                    elif color[v] == color[u]:\n                        return False\n    return True\n"
+    },
+    "explanation": "BFS/DFS 2-coloring detects odd-length cycles. If an adjacent neighbor has the same color, the graph cannot be bipartite."
+  },
+  {
+    "id": "dsa-graph-med-02",
+    "company": "Microsoft",
+    "topic": "Graphs",
+    "subtopic": "Cycle Detection Directed Graph",
+    "title": "Cycle Detection in Directed Graph using DFS",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "In a directed graph DFS traversal, which edge classification confirms the existence of a directed cycle?",
+    "options": [
+      "A) Back Edge (pointing to an ancestor in current recursion stack)",
+      "B) Forward Edge",
+      "C) Cross Edge",
+      "D) Tree Edge"
+    ],
+    "correct_option_index": 0,
+    "explanation": "A Back Edge points from current node to a vertex currently active in the recursion stack, forming a directed cycle."
+  },
+  {
+    "id": "dsa-graph-hard-01",
+    "company": "Amazon",
+    "topic": "Graphs",
+    "subtopic": "Tarjan's Bridges Algorithm",
+    "title": "Tarjan's Algorithm for Critical Connections / Bridges",
+    "difficulty": "Hard",
+    "type": "Technical MCQ",
+    "description": "In Tarjan's algorithm for finding bridges (critical edges) in a connected undirected graph, an edge (u, v) is a bridge if and only if:",
+    "options": [
+      "A) low[v] > discovery_time[u]",
+      "B) low[v] <= discovery_time[u]",
+      "C) discovery_time[v] == 0",
+      "D) in_degree[u] == 1"
+    ],
+    "correct_option_index": 0,
+    "explanation": "If low[v] > discovery_time[u], node v cannot reach any ancestor of u without passing through (u, v), so removing (u, v) disconnects the graph."
+  },
+  {
+    "id": "dsa-dp-easy-01",
+    "company": "Infosys SP",
+    "topic": "Dynamic Programming",
+    "subtopic": "Climbing Stairs",
+    "title": "Climbing Stairs Fibonacci Relation",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "You are climbing a staircase with N steps. You can climb 1 or 2 steps at a time. What is the state recurrence for total distinct ways dp[n]?",
+    "options": [
+      "A) dp[n] = dp[n-1] + dp[n-2]",
+      "B) dp[n] = dp[n-1] * 2",
+      "C) dp[n] = dp[n-1] + 1",
+      "D) dp[n] = dp[n/2] + 1"
+    ],
+    "correct_option_index": 0,
+    "explanation": "To reach step n, you can arrive from step (n-1) with 1 step or step (n-2) with 2 steps, matching the Fibonacci recurrence."
+  },
+  {
+    "id": "dsa-dp-med-01",
+    "company": "Amazon",
+    "topic": "Dynamic Programming",
+    "subtopic": "Longest Increasing Subsequence",
+    "title": "Longest Increasing Subsequence (LIS) O(N log N) Bound",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Which combination of data structure and algorithm reduces Longest Increasing Subsequence time complexity from O(N^2) to O(N log N)?",
+    "options": [
+      "A) Tails array with Binary Search (bisect_left)",
+      "B) Priority Queue Heap",
+      "C) Monotonic Stack",
+      "D) Two Pointers"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Maintaining an active smallest-tail array of increasing subsequences and replacing elements via binary search achieves O(N log N)."
+  },
+  {
+    "id": "dsa-dp-med-02",
+    "company": "Google",
+    "topic": "Dynamic Programming",
+    "subtopic": "Edit Distance",
+    "title": "Levenshtein Edit Distance Recurrence",
+    "difficulty": "Medium",
+    "type": "coding",
+    "description": "Given two strings word1 and word2, return the minimum number of operations (insert, delete, replace) required to convert word1 to word2.",
+    "starter_code": {
+      "python": "def min_distance(word1: str, word2: str) -> int:\n    return 0\n"
+    },
+    "test_cases": [
+      {
+        "input": {
+          "word1": "horse",
+          "word2": "ros"
+        },
+        "expected": 3,
+        "is_hidden": false
+      },
+      {
+        "input": {
+          "word1": "intention",
+          "word2": "execution"
+        },
+        "expected": 5,
+        "is_hidden": false
+      }
+    ],
+    "options": [
+      "A) dp[i][j] = 1 + min(insert, delete, replace)",
+      "B) Greedy match",
+      "C) Longest Common Substring",
+      "D) Stack comparison"
+    ],
+    "correct_option_index": 0,
+    "reference_solution": {
+      "python": "def min_distance(word1: str, word2: str) -> int:\n    m, n = len(word1), len(word2)\n    dp = [[0]*(n+1) for _ in range(m+1)]\n    for i in range(m+1): dp[i][0] = i\n    for j in range(n+1): dp[0][j] = j\n    for i in range(1, m+1):\n        for j in range(1, n+1):\n            if word1[i-1] == word2[j-1]:\n                dp[i][j] = dp[i-1][j-1]\n            else:\n                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])\n    return dp[m][n]\n"
+    },
+    "explanation": "If characters differ, dp[i][j] = 1 + min(dp[i-1][j] (delete), dp[i][j-1] (insert), dp[i-1][j-1] (replace))."
+  },
+  {
+    "id": "dsa-dp-hard-01",
+    "company": "Meta",
+    "topic": "Dynamic Programming",
+    "subtopic": "Matrix Chain Multiplication",
+    "title": "Matrix Chain Multiplication Optimal Parenthesization",
+    "difficulty": "Hard",
+    "type": "Technical MCQ",
+    "description": "In Matrix Chain Multiplication DP, what is the time complexity to find the minimum scalar multiplications for N matrices?",
+    "options": [
+      "A) O(N^3)",
+      "B) O(N^2)",
+      "C) O(2^N)",
+      "D) O(N log N)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Matrix Chain Multiplication evaluates N^2 subproblems, each requiring O(N) split point comparisons, yielding O(N^3) time."
+  },
+  {
+    "id": "dsa-trees-easy-01",
+    "company": "TCS Digital",
+    "topic": "Trees",
+    "subtopic": "Binary Tree Height",
+    "title": "Max Depth of Binary Tree",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "What is the recursive relation for maximum depth (height) of a Binary Tree root?",
+    "options": [
+      "A) 1 + max(max_depth(root.left), max_depth(root.right))",
+      "B) 1 + min(max_depth(root.left), max_depth(root.right))",
+      "C) max_depth(root.left) + max_depth(root.right)",
+      "D) 2 * max_depth(root.left)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Maximum depth is 1 (for the current root node) plus the maximum of the left and right subtrees' depths."
+  },
+  {
+    "id": "dsa-trees-med-01",
+    "company": "Amazon",
+    "topic": "Trees",
+    "subtopic": "Serialize & Deserialize Binary Tree",
+    "title": "Preorder Traversal Serialization Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Why is Preorder Traversal with null markers (e.g. '1,2,#,#,3,#,#') sufficient to uniquely reconstruct a Binary Tree?",
+    "options": [
+      "A) Root comes first, followed recursively by Left and Right subtrees with explicit null boundaries.",
+      "B) It sorts elements automatically.",
+      "C) Tree height is halved during encoding.",
+      "D) Omit right pointers."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Preorder output puts root first; explicit null markers remove structural ambiguity during reconstruction."
+  },
+  {
+    "id": "dsa-trees-hard-01",
+    "company": "Google",
+    "topic": "Trees",
+    "subtopic": "Binary Tree Maximum Path Sum",
+    "title": "Binary Tree Maximum Path Sum Non-negative Contribution",
+    "difficulty": "Hard",
+    "type": "coding",
+    "description": "Given a non-empty binary tree, find the maximum path sum. A path is any sequence of nodes from any node to any node along parent-child connections.",
+    "starter_code": {
+      "python": "def max_path_sum(root) -> int:\n    return 0\n"
+    },
+    "test_cases": [
+      {
+        "input": {
+          "val": 1,
+          "left": {
+            "val": 2
+          },
+          "right": {
+            "val": 3
+          }
+        },
+        "expected": 6,
+        "is_hidden": false
+      }
+    ],
+    "options": [
+      "A) Postorder DFS accumulating max(0, left) + max(0, right) + node.val",
+      "B) Preorder traversal",
+      "C) BFS Level Order",
+      "D) Inorder sort"
+    ],
+    "correct_option_index": 0,
+    "reference_solution": {
+      "python": "def max_path_sum(root) -> int:\n    max_sum = float('-inf')\n    def dfs(node):\n        nonlocal max_sum\n        if not node: return 0\n        left = max(0, dfs(node.get('left')))\n        right = max(0, dfs(node.get('right')))\n        max_sum = max(max_sum, node['val'] + left + right)\n        return node['val'] + max(left, right)\n    dfs(root)\n    return max_sum\n"
+    },
+    "explanation": "Ignoring negative subtree paths via max(0, branch_sum) ensures optimal path sum tracking in O(N)."
+  },
+  {
+    "id": "dsa-arr-easy-01",
+    "company": "Wipro",
+    "topic": "Arrays & Strings",
+    "subtopic": "Two Sum",
+    "title": "Two Sum Hash Map Lookup Complexity",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "What is the time and space complexity of solving Two Sum using a Hash Map storing value-to-index mappings?",
+    "options": [
+      "A) O(N) Time, O(N) Space",
+      "B) O(N^2) Time, O(1) Space",
+      "C) O(N log N) Time, O(N) Space",
+      "D) O(1) Time, O(N) Space"
+    ],
+    "correct_option_index": 0,
+    "explanation": "A hash map provides average O(1) lookup per element, checking complement target - x in a single pass of O(N) time and O(N) space."
+  },
+  {
+    "id": "dsa-arr-med-01",
+    "company": "Amazon",
+    "topic": "Arrays & Strings",
+    "subtopic": "3Sum Problem",
+    "title": "3Sum Two Pointer Duplicate Avoidance",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "In the O(N^2) 3Sum algorithm on a sorted array, how are duplicate triplets avoided efficiently?",
+    "options": [
+      "A) Skip adjacent duplicate values for fixed index i, left pointer, and right pointer.",
+      "B) Insert all triplets into a 3D matrix.",
+      "C) Use 3 nested loops.",
+      "D) Convert array to a BST."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Sorting allows skipping identical consecutive values for the outer loop and inner two pointers, avoiding duplicate triplets without extra set overhead."
+  },
+  {
+    "id": "dsa-arr-hard-01",
+    "company": "Google",
+    "topic": "Arrays & Strings",
+    "subtopic": "Trapping Rain Water",
+    "title": "Trapping Rain Water Two Pointer Optimality",
+    "difficulty": "Hard",
+    "type": "coding",
+    "description": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
+    "starter_code": {
+      "python": "def trap(height: list[int]) -> int:\n    return 0\n"
+    },
+    "test_cases": [
+      {
+        "input": {
+          "height": [
+            0,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1
+          ]
+        },
+        "expected": 6,
+        "is_hidden": false
+      },
+      {
+        "input": {
+          "height": [
+            4,
+            2,
+            0,
+            3,
+            2,
+            5
+          ]
+        },
+        "expected": 9,
+        "is_hidden": false
+      }
+    ],
+    "options": [
+      "A) Two pointers tracking left_max and right_max",
+      "B) Monotonic Queue",
+      "C) Binary search on height",
+      "D) 2D Grid DFS"
+    ],
+    "correct_option_index": 0,
+    "reference_solution": {
+      "python": "def trap(height: list[int]) -> int:\n    l, r = 0, len(height) - 1\n    left_max, right_max = 0, 0\n    water = 0\n    while l < r:\n        if height[l] < height[r]:\n            if height[l] >= left_max: left_max = height[l]\n            else: water += left_max - height[l]\n            l += 1\n        else:\n            if height[r] >= right_max: right_max = height[r]\n            else: water += right_max - height[r]\n            r -= 1\n    return water\n"
+    },
+    "explanation": "Water trapped at any index is bounded by min(left_max, right_max) - height[i]. Two pointers resolve this in O(N) time and O(1) space."
+  },
+  {
+    "id": "dsa-ll-easy-01",
+    "company": "Accenture",
+    "topic": "Linked Lists",
+    "subtopic": "Reverse Linked List",
+    "title": "Iterative Singly Linked List Reversal",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "Which pointer updates reverse a singly linked list node in place during iteration?",
+    "options": [
+      "A) next_temp = curr.next; curr.next = prev; prev = curr; curr = next_temp",
+      "B) curr.next = curr.next.next",
+      "C) prev = curr.next; curr = prev",
+      "D) head = curr.next"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Storing next_temp preserves pointer connectivity before reversing curr.next to point backward to prev."
+  },
+  {
+    "id": "dsa-ll-med-01",
+    "company": "Microsoft",
+    "topic": "Linked Lists",
+    "subtopic": "Merge K Sorted Lists",
+    "title": "Merge K Sorted Lists Min-Heap Complexity",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "What is the time complexity of merging K sorted linked lists containing N total nodes using a Priority Queue (Min-Heap)?",
+    "options": [
+      "A) O(N log K)",
+      "B) O(N * K)",
+      "C) O(N^2)",
+      "D) O(K log N)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "The min-heap holds at most K node heads at any time. Inserting and extracting N nodes takes O(N log K) operations."
+  },
+  {
+    "id": "dsa-sq-easy-01",
+    "company": "TCS Digital",
+    "topic": "Stack & Queue",
+    "subtopic": "Valid Parentheses",
+    "title": "Valid Parentheses Stack Matching Invariant",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "When parsing string '([{}])' using a Stack, what condition guarantees string validity upon completing iteration?",
+    "options": [
+      "A) The Stack is completely empty",
+      "B) The Stack contains 1 element",
+      "C) Top of stack equals '('",
+      "D) String length is odd"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Every opening bracket must be popped by a matching closing bracket. An empty stack at the end confirms all brackets were closed in correct order."
+  },
+  {
+    "id": "dsa-sq-med-01",
+    "company": "Amazon",
+    "topic": "Stack & Queue",
+    "subtopic": "Min Stack",
+    "title": "Min Stack O(1) getMin Design",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "How does a Min Stack achieve getMin() in O(1) time without scanning all elements?",
+    "options": [
+      "A) Auxiliary stack maintaining the minimum element at each corresponding main stack level",
+      "B) Sorting the main stack after every push",
+      "C) Binary search on main stack array",
+      "D) Doubly linked list traversal"
+    ],
+    "correct_option_index": 0,
+    "explanation": "An auxiliary min-stack pushes min(val, min_stack.top()), keeping current minimum synchronized at O(1) space per push."
+  },
+  {
+    "id": "dsa-sq-hard-01",
+    "company": "Flipkart",
+    "topic": "Stack & Queue",
+    "subtopic": "Sliding Window Maximum",
+    "title": "Sliding Window Maximum Monotonic Deque",
+    "difficulty": "Hard",
+    "type": "Technical MCQ",
+    "description": "To maintain maximum values in a sliding window of size K in O(N) total time, which data structure is required?",
+    "options": [
+      "A) Monotonically decreasing Deque storing indices",
+      "B) Monotonically increasing Stack",
+      "C) Binary Min-Heap",
+      "D) Standard Queue"
+    ],
+    "correct_option_index": 0,
+    "explanation": "A monotonically decreasing deque keeps candidate maximum indices at the front, popping smaller incoming elements in O(1) amortized time."
+  },
+  {
+    "id": "dsa-bs-easy-01",
+    "company": "Infosys SP",
+    "topic": "Binary Search",
+    "subtopic": "Standard Binary Search",
+    "title": "Binary Search Integer Overflow Prevention",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "In C++/Java binary search, how should `mid` index calculation be written to prevent integer overflow when low + high exceeds INT_MAX?",
+    "options": [
+      "A) mid = low + (high - low) / 2",
+      "B) mid = (low + high) / 2",
+      "C) mid = low * high / 2",
+      "D) mid = (low + high) >> 2"
+    ],
+    "correct_option_index": 0,
+    "explanation": "low + (high - low) / 2 avoids calculating low + high directly, preventing 32-bit signed integer overflow."
+  },
+  {
+    "id": "dsa-bs-med-02",
+    "company": "Google",
+    "topic": "Binary Search",
+    "subtopic": "Capacity To Ship Packages Within D Days",
+    "title": "Binary Search on Answer Range Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "When applying Binary Search on Answer (e.g. min ship capacity), what property MUST the predicate function satisfy over the search space?",
+    "options": [
+      "A) Monotonicity (Feasible for all capacity >= C, Infeasible for capacity < C)",
+      "B) Strict negativity",
+      "C) Random distribution",
+      "D) Quadratic growth"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Binary search on answer relies on monotonicity: if capacity C can ship within D days, any capacity > C can also do so."
+  },
+  {
+    "id": "dsa-graph-med-03",
+    "company": "Flipkart",
+    "topic": "Graphs",
+    "subtopic": "Course Schedule II",
+    "title": "Course Schedule II Topological Ordering",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Given numCourses and prerequisite pairs, which algorithm returns a valid order to finish all courses or empty array if impossible?",
+    "options": [
+      "A) Kahn's Algorithm / DFS Topological Sort checking zero in-degree vertices",
+      "B) Dijkstra's Algorithm",
+      "C) Prim's Algorithm",
+      "D) Kruskal's Algorithm"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Prerequisite dependencies form a directed graph. Kahn's zero-indegree queue or DFS post-order yields a valid topological order."
+  },
+  {
+    "id": "dsa-graph-easy-03",
+    "company": "Wipro",
+    "topic": "Graphs",
+    "subtopic": "Connected Components",
+    "title": "Number of Connected Components in Undirected Graph",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "How many outer BFS/DFS loop invocations are required to count connected components in an undirected graph?",
+    "options": [
+      "A) One invocation per unvisited vertex encountered in outer loop",
+      "B) Always 1 invocation total",
+      "C) V * E invocations",
+      "D) E / 2 invocations"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Iterating 0..V-1 and launching BFS/DFS whenever unvisited[i] is true explores one complete connected component per launch."
+  },
+  {
+    "id": "dsa-dp-med-03",
+    "company": "Microsoft",
+    "topic": "Dynamic Programming",
+    "subtopic": "Word Break Problem",
+    "title": "Word Break DP State Transition",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Given string s and dictionary wordDict, what is the boolean recurrence `dp[i]` indicating s[0..i-1] can be segmented into dictionary words?",
+    "options": [
+      "A) dp[i] = any(dp[j] and s[j:i] in wordDict for j in range(i))",
+      "B) dp[i] = dp[i-1] + len(s)",
+      "C) dp[i] = s[0:i] in wordDict",
+      "D) dp[i] = dp[i/2]"
+    ],
+    "correct_option_index": 0,
+    "explanation": "dp[i] is true if there exists some split index j < i such that s[0..j-1] is valid (dp[j]) and s[j..i-1] is in wordDict."
+  },
+  {
+    "id": "dsa-dp-easy-02",
+    "company": "Accenture",
+    "topic": "Dynamic Programming",
+    "subtopic": "House Robber",
+    "title": "House Robber Maximum Sum Recurrence",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "Robbing houses along a street where adjacent houses cannot be robbed: what is the state relation `dp[i]` for max loot up to house i?",
+    "options": [
+      "A) dp[i] = max(dp[i-1], dp[i-2] + nums[i])",
+      "B) dp[i] = dp[i-1] + nums[i]",
+      "C) dp[i] = dp[i-2] + dp[i-1]",
+      "D) dp[i] = max(nums)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "At house i, you either skip house i (taking dp[i-1]) or rob house i (taking dp[i-2] + nums[i])."
+  },
+  {
+    "id": "dsa-trees-med-02",
+    "company": "Meta",
+    "topic": "Trees",
+    "subtopic": "Binary Tree Right Side View",
+    "title": "Binary Tree Right Side View BFS Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "To collect the rightmost node visible at each level of a Binary Tree, which node in a level-order BFS queue should be appended to the output?",
+    "options": [
+      "A) The last node processed in each level's queue iteration",
+      "B) The first node of the entire tree only",
+      "C) Only leaf nodes",
+      "D) All nodes in reverse order"
+    ],
+    "correct_option_index": 0,
+    "explanation": "In level-by-level BFS traversal, the last node popped/processed for level L is the rightmost visible node at depth L."
+  },
+  {
+    "id": "dsa-trees-easy-02",
+    "company": "Infosys SP",
+    "topic": "Trees",
+    "subtopic": "Same Tree Check",
+    "title": "Checking if Two Binary Trees are Identical",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "What is the base case condition for recursive function `is_same_tree(p, q)`?",
+    "options": [
+      "A) If not p and not q: return True; if not p or not q or p.val != q.val: return False",
+      "B) Return True if both roots are non-null",
+      "C) Return False if tree heights differ",
+      "D) Compare leaf nodes only"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Two null nodes are identical (True). One null node or mismatched value fails structural identity (False)."
+  },
+  {
+    "id": "dsa-arr-med-02",
+    "company": "Google",
+    "topic": "Arrays & Strings",
+    "subtopic": "Group Anagrams",
+    "title": "Group Anagrams Categorization Key",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Which hash map key efficiently groups strings into anagram sets in O(N * L log L) time?",
+    "options": [
+      "A) Sorted string tuple (e.g. ''.join(sorted(word)))",
+      "B) String length",
+      "C) Sum of ASCII character codes",
+      "D) First character of string"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Anagrams contain identical character counts, so sorting characters yields identical string keys for grouping."
+  },
+  {
+    "id": "dsa-arr-easy-02",
+    "company": "Amazon",
+    "topic": "Arrays & Strings",
+    "subtopic": "Best Time to Buy and Sell Stock",
+    "title": "Single Pass Buy & Sell Stock Max Profit",
+    "difficulty": "Easy",
+    "type": "Technical MCQ",
+    "description": "To calculate maximum single-transaction stock profit from daily prices array in O(N) time and O(1) space, what state variables are maintained?",
+    "options": [
+      "A) min_price encountered so far and max_profit = max(max_profit, price - min_price)",
+      "B) Nested loop over all price pairs",
+      "C) Max Heap of all prices",
+      "D) Average price of stock"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Updating min_price dynamically allows computing potential profit at each day i in O(1) step."
+  },
+  {
+    "id": "dsa-sq-med-02",
+    "company": "Microsoft",
+    "topic": "Stack & Queue",
+    "subtopic": "Evaluate Reverse Polish Notation",
+    "title": "Reverse Polish Notation (Postfix) Stack Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "When evaluating Postfix expression ['2', '1', '+', '3', '*'], how are operands processed when encountering an operator?",
+    "options": [
+      "A) Pop right operand b, pop left operand a, apply operator (a op b), push result back to stack",
+      "B) Push operator to stack",
+      "C) Evaluate left to right without stack",
+      "D) Reverse token array first"
+    ],
+    "correct_option_index": 0,
+    "explanation": "RPN operators apply to the most recent two operands on top of the stack (first popped is second operand b, next popped is first operand a)."
+  },
+  {
+    "id": "dsa-bs-med-03",
+    "company": "Amazon",
+    "topic": "Binary Search",
+    "subtopic": "Search 2D Matrix",
+    "title": "Search in 2D Matrix Flattened Binary Search",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Given an M x N matrix where each row is sorted and first integer of each row > last of previous row, how is 2D index [r, c] calculated from 1D midpoint `mid`?",
+    "options": [
+      "A) row = mid // N, col = mid % N",
+      "B) row = mid % M, col = mid // M",
+      "C) row = mid // M, col = mid // N",
+      "D) row = mid, col = mid"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Flattening an M x N matrix conceptually into size M*N allows binary search with 1D to 2D mapping row = mid // N and col = mid % N."
+  },
+  {
+    "id": "dsa-ll-med-02",
+    "company": "Google",
+    "topic": "Linked Lists",
+    "subtopic": "Add Two Numbers",
+    "title": "Add Two Numbers Represented as Reverse Linked Lists",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "When adding two non-negative integers stored as linked lists in reverse order (1's digit at head), how is digit addition and carry propagated?",
+    "options": [
+      "A) val = (l1.val + l2.val + carry) % 10, carry = (l1.val + l2.val + carry) // 10",
+      "B) Multiply digits by 10",
+      "C) Reverse lists first always",
+      "D) Convert nodes to float"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Processing heads directly aligns matching place values (units, tens, hundreds), propagating carry naturally."
+  },
+  {
+    "id": "dsa-apt-hard-01",
+    "company": "TCS Digital",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Pipes & Cisterns",
+    "title": "Pipes & Cisterns Leakage Rate Math",
+    "difficulty": "Hard",
+    "type": "Conceptual MCQ",
+    "description": "Pipe A fills a tank in 6 hours. Due to a leak at the bottom, it takes 7 hours to fill. How long will the leak take to empty the full tank alone?",
+    "options": [
+      "A) 42 hours (1/6 - 1/7 = 1/42)",
+      "B) 13 hours",
+      "C) 35 hours",
+      "D) 24 hours"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Rate of leak = filling rate - net rate = 1/6 - 1/7 = 1/42 tank/hr. Thus leak empties tank in 42 hours."
+  },
+  {
+    "id": "dsa-sys-med-01",
+    "company": "Amazon",
+    "topic": "System Design",
+    "subtopic": "Load Balancers",
+    "title": "Weighted Round-Robin vs Least Connections Load Balancing",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "Which load balancing algorithm is optimal for long-lived active WebSocket connections with varying server capacities?",
+    "options": [
+      "A) Weighted Least Connections",
+      "B) Pure Random Selection",
+      "C) Fixed Round-Robin",
+      "D) Source IP Hash"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Least Connections routes new incoming requests to servers with lowest active connection counts, weighted by server processing capacity."
   }
 ]

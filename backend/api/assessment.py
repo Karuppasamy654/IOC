@@ -16,8 +16,12 @@ class GenerateAssessmentRequest(BaseModel):
     title: Optional[str] = "Placement Baseline Diagnostic Assessment"
     target_role: Optional[str] = "Software Development Engineer (SDE)"
     target_company: Optional[str] = "Amazon"
+    subject_focus: Optional[str] = "All Subjects"
     difficulty: Optional[str] = "Medium"
     duration_minutes: Optional[int] = 30
+    question_count: Optional[int] = 10
+    use_dynamic_ai: Optional[bool] = False
+    scheduled_topics: Optional[List[str]] = None
     topic_distribution: Optional[Dict[str, int]] = None
 
 class SubmitAssessmentRequest(BaseModel):
@@ -37,7 +41,12 @@ def generate_assessment(
         target_role=req.target_role or (current_user.profile.target_role if current_user.profile else "Software Development Engineer (SDE)"),
         difficulty=req.difficulty or "Medium",
         topic_distribution=req.topic_distribution,
-        duration_minutes=req.duration_minutes or 30
+        duration_minutes=req.duration_minutes or 30,
+        target_company=req.target_company or "Amazon",
+        subject_focus=req.subject_focus or "All Subjects",
+        question_count=req.question_count or 10,
+        use_dynamic_ai=bool(req.use_dynamic_ai),
+        scheduled_topics=req.scheduled_topics
     )
     return result
 

@@ -59,6 +59,14 @@ export const App: React.FC = () => {
   const [showWizard, setShowWizard] = useState<boolean>(false);
   const [isDemoRunning, setIsDemoRunning] = useState<boolean>(false);
   const [isRefreshingTraces, setIsRefreshingTraces] = useState<boolean>(false);
+  const [assessmentConfig, setAssessmentConfig] = useState<any>(null);
+
+  const handleNavigate = (tab: string, config?: any) => {
+    if (tab === 'assessment' && config) {
+      setAssessmentConfig(config);
+    }
+    setActiveTab(tab);
+  };
 
   const checkAuthAndLoad = async () => {
     try {
@@ -91,13 +99,13 @@ export const App: React.FC = () => {
 
       setProfile(profData);
       setReadiness(readData);
-      setCompetencies(compData);
-      setWeaknesses(weakData);
+      setCompetencies(Array.isArray(compData) ? compData : []);
+      setWeaknesses(Array.isArray(weakData) ? weakData : []);
       setCurrentPlan(planData);
-      setPlanHistory(histData);
-      setStrategies(stratData);
-      setQuestions(qData);
-      setTraces(traceData);
+      setPlanHistory(Array.isArray(histData) ? histData : []);
+      setStrategies(Array.isArray(stratData) ? stratData : []);
+      setQuestions(Array.isArray(qData) ? qData : []);
+      setTraces(Array.isArray(traceData) ? traceData : []);
     } catch (err) {
       console.error('Error loading placement app data:', err);
     }
@@ -223,7 +231,7 @@ export const App: React.FC = () => {
               competencies={competencies}
               weaknesses={weaknesses}
               currentPlan={currentPlan}
-              onNavigate={setActiveTab}
+              onNavigate={handleNavigate}
               onRunDemo={handleRunDemoScenario}
               isDemoRunning={isDemoRunning}
             />
@@ -241,7 +249,8 @@ export const App: React.FC = () => {
           {activeTab === 'calendar' && (
             <CalendarView
               currentPlan={currentPlan}
-              onNavigate={setActiveTab}
+              profile={profile}
+              onNavigate={handleNavigate}
             />
           )}
 
@@ -254,6 +263,7 @@ export const App: React.FC = () => {
           {activeTab === 'assessment' && (
             <MockAssessmentCenter
               onTriggerReplan={handleRunDemoScenario}
+              initialConfig={assessmentConfig}
             />
           )}
 

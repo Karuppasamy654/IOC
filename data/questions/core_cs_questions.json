@@ -56,7 +56,7 @@
   {
     "id": "dbms-mcq-01",
     "company": "Amazon",
-    "topic": "DBMS",
+    "topic": "DBMS & SQL",
     "subtopic": "ACID Properties & Transactions",
     "title": "Isolation Levels & Dirty Read Anomaly",
     "difficulty": "Medium",
@@ -160,5 +160,671 @@
     ],
     "correct_option_index": 1,
     "explanation": "Method Overriding using dynamic dispatch achieves runtime polymorphism."
+  },
+  {
+    "id": "dbms-mcq-norm-01",
+    "company": "Google",
+    "topic": "DBMS & SQL",
+    "subtopic": "Database Normalization",
+    "title": "Boyce-Codd Normal Form (BCNF) Condition",
+    "difficulty": "Hard",
+    "type": "mcq",
+    "description": "A relational schema R is in Boyce-Codd Normal Form (BCNF) if for every non-trivial functional dependency X -> Y:",
+    "options": [
+      "A) X is a Super Key in schema R.",
+      "B) Y is a Prime Attribute in schema R.",
+      "C) X is a Candidate Key or Y is a Prime Attribute.",
+      "D) Schema R has no null values."
+    ],
+    "correct_option_index": 0,
+    "explanation": "BCNF strictly requires the determinant X to be a super key for every functional dependency."
+  },
+  {
+    "id": "cn-mcq-http-01",
+    "company": "Amazon",
+    "topic": "Computer Networks",
+    "subtopic": "Application Layer & HTTP",
+    "title": "HTTP Status Code 403 vs 401",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "What is the primary operational distinction between HTTP Status Code 401 (Unauthorized) and HTTP Status Code 403 (Forbidden)?",
+    "options": [
+      "A) 401 means authentication is lacking or unverified; 403 means the user is authenticated but lacks required permission.",
+      "B) 401 means page missing; 403 means server crashed.",
+      "C) 401 is for GET requests; 403 is for POST requests.",
+      "D) Both 401 and 403 are identical success codes."
+    ],
+    "correct_option_index": 0,
+    "explanation": "401 indicates unauthenticated client identity, while 403 indicates authenticated client with insufficient authorization scope."
+  },
+  {
+    "id": "os-mcq-semaphore-01",
+    "company": "Microsoft",
+    "topic": "Operating Systems",
+    "subtopic": "Concurrency & Semaphores",
+    "title": "Binary Semaphore wait() Operation Invariant",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "What happens when a process calls `wait(S)` (or `P(S)`) on a binary semaphore `S` initialized to 0?",
+    "options": [
+      "A) The process decrements S to -1 and enters the blocked/waiting queue.",
+      "B) The process increments S to 1 and proceeds immediately.",
+      "C) The process terminates abnormally.",
+      "D) The operating system raises a deadlock exception."
+    ],
+    "correct_option_index": 0,
+    "explanation": "When semaphore S <= 0, `wait(S)` blocks the calling process until another process invokes `signal(S)`."
+  },
+  {
+    "id": "py-mcq-gil-01",
+    "company": "Google",
+    "topic": "Python",
+    "subtopic": "Global Interpreter Lock (GIL)",
+    "title": "Python GIL Impact on Multithreading",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "How does the CPython Global Interpreter Lock (GIL) affect multithreaded execution of CPU-bound tasks in Python?",
+    "options": [
+      "A) Prevents multiple native OS threads from executing Python bytecode in parallel on multiple CPU cores.",
+      "B) Accelerates CPU-bound loops by utilizing all available CPU cores automatically.",
+      "C) Prevents asynchronous I/O operations from running.",
+      "D) Restricts memory allocation to 2GB total."
+    ],
+    "correct_option_index": 0,
+    "explanation": "The GIL ensures only one thread holds control of the CPython interpreter at a time, limiting CPU-bound speedup under multithreading."
+  },
+  {
+    "id": "java-mcq-gc-01",
+    "company": "Amazon",
+    "topic": "Java",
+    "subtopic": "JVM & Garbage Collection",
+    "title": "Java JVM Memory Generations",
+    "difficulty": "Medium",
+    "type": "mcq",
+    "description": "In standard JVM memory management, newly instantiated Java objects are initially allocated in which heap region?",
+    "options": [
+      "A) Eden Space within the Young Generation",
+      "B) Tenured / Old Generation directly",
+      "C) Metaspace",
+      "D) Survivor Space S1"
+    ],
+    "correct_option_index": 0,
+    "explanation": "All new objects (unless very large) are allocated in the Eden space. Minor GC collects short-lived objects from Eden."
+  },
+  {
+    "id": "cn-mcq-dns-01",
+    "company": "Accenture",
+    "topic": "Computer Networks",
+    "subtopic": "DNS & Protocol Layers",
+    "title": "DNS Default Transport Layer Protocol",
+    "difficulty": "Easy",
+    "type": "mcq",
+    "description": "Which transport layer protocol and port number does standard DNS query resolution primarily use for fast lookups?",
+    "options": [
+      "A) UDP Port 53",
+      "B) TCP Port 80",
+      "C) UDP Port 443",
+      "D) ICMP Port 1"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Standard DNS queries use UDP port 53 for low latency and minimal handshake overhead."
+  },
+  {
+    "id": "dbms-output-01",
+    "company": "Microsoft",
+    "topic": "DBMS & SQL",
+    "subtopic": "SQL HAVING Clause Output",
+    "title": "SQL GROUP BY & HAVING Count Output Prediction",
+    "difficulty": "Medium",
+    "type": "SQL Output",
+    "description": "Consider an Orders table with columns (department, amount):\n[('IT', 500), ('IT', 300), ('HR', 200), ('IT', 400), ('HR', 100)]\nWhat is the output count of departments returned by:\n\nSELECT department FROM Orders GROUP BY department HAVING SUM(amount) > 600;",
+    "options": [
+      "A) 1 department ('IT' with sum 1200)",
+      "B) 2 departments ('IT' and 'HR')",
+      "C) 0 departments",
+      "D) 5 individual rows"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Sum for IT = 500+300+400 = 1200 (> 600). Sum for HR = 200+100 = 300 (<= 600). Thus only 'IT' is returned."
+  },
+  {
+    "id": "os-out-01",
+    "company": "Google",
+    "topic": "Operating Systems",
+    "subtopic": "Process Creation & fork() Output",
+    "title": "C POSIX fork() System Call Output Prediction",
+    "difficulty": "Hard",
+    "type": "Output Prediction",
+    "description": "Predict the number of times 'Hello' is printed by this C program snippet:\n\n#include <stdio.h>\n#include <unistd.h>\nint main() {\n    fork();\n    fork();\n    printf(\"Hello\\n\");\n    return 0;\n}",
+    "options": [
+      "A) 4 times",
+      "B) 2 times",
+      "C) 3 times",
+      "D) 8 times"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Each fork() doubles the number of executing processes. Initial = 1. First fork() = 2. Second fork() = 4 active processes, each printing 'Hello'."
+  },
+  {
+    "id": "oop-out-01",
+    "company": "TCS Digital",
+    "topic": "OOP",
+    "subtopic": "Constructor Execution Order",
+    "title": "C++ Inheritance Constructor Execution Order",
+    "difficulty": "Easy",
+    "type": "Output Prediction",
+    "description": "Predict the output of the C++ program:\n\nclass A { public: A() { cout << \"A\"; } };\nclass B : public A { public: B() { cout << \"B\"; } };\nint main() { B obj; return 0; }",
+    "options": [
+      "A) AB",
+      "B) BA",
+      "C) B",
+      "D) A"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Base class constructors are executed first before derived class constructors. Output is 'AB'."
+  },
+  {
+    "id": "cn-out-01",
+    "company": "Infosys SP",
+    "topic": "Computer Networks",
+    "subtopic": "Subnet Masking & IP Subnetting",
+    "title": "Subnet Mask /26 Available Host Addresses",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "In IPv4 networking, how many usable host IP addresses are available in a subnet with prefix CIDR notation /26?",
+    "options": [
+      "A) 62 host addresses",
+      "B) 64 host addresses",
+      "C) 128 host addresses",
+      "D) 254 host addresses"
+    ],
+    "correct_option_index": 0,
+    "explanation": "A /26 subnet leaves 32 - 26 = 6 host bits. 2^6 = 64 total IPs. Subtracting network ID and broadcast address leaves 62 usable host IPs."
+  },
+  {
+    "id": "core-os-easy-01",
+    "company": "Amazon",
+    "topic": "Operating Systems",
+    "subtopic": "Process vs Thread",
+    "title": "Process vs Thread Memory Isolation",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "What is the primary difference between processes and threads regarding memory space?",
+    "options": [
+      "A) Threads within the same process share code, data, and heap memory, but have private stacks.",
+      "B) Processes share address space with parent processes automatically.",
+      "C) Threads have isolated virtual memory addresses.",
+      "D) Processes cannot perform I/O operations."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Threads belong to a process and share virtual address space (heap, globals), while each process has its own isolated address space."
+  },
+  {
+    "id": "core-os-med-01",
+    "company": "Google",
+    "topic": "Operating Systems",
+    "subtopic": "Banker's Algorithm",
+    "title": "Banker's Algorithm Safety Check Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "In Banker's Algorithm for deadlock avoidance, a state is defined as 'SAFE' if:",
+    "options": [
+      "A) There exists at least one execution sequence of processes that allows all processes to complete without deadlock.",
+      "B) Total allocated resources equal zero.",
+      "C) All processes acquire resources simultaneously.",
+      "D) No process requests more than 1 resource."
+    ],
+    "correct_option_index": 0,
+    "explanation": "A safe state guarantees the OS can allocate resources up to max claims for every process in some order without deadlocking."
+  },
+  {
+    "id": "core-os-hard-01",
+    "company": "Microsoft",
+    "topic": "Operating Systems",
+    "subtopic": "TLB & Page Fault Overhead",
+    "title": "Translation Lookaside Buffer (TLB) Hit Ratio Math",
+    "difficulty": "Hard",
+    "type": "Technical MCQ",
+    "description": "If TLB access time is 10ns, main memory access time is 100ns, and TLB hit ratio is 90%, what is the Effective Memory Access Time (EMAT) for a single page table lookup?",
+    "options": [
+      "A) 120ns (0.90 * (10 + 100) + 0.10 * (10 + 100 + 100))",
+      "B) 110ns",
+      "C) 200ns",
+      "D) 90ns"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Hit: 10ns TLB + 100ns RAM = 110ns. Miss: 10ns TLB + 100ns Page Table + 100ns Data RAM = 210ns. EMAT = 0.9*110 + 0.1*210 = 99 + 21 = 120ns."
+  },
+  {
+    "id": "core-dbms-easy-01",
+    "company": "TCS Digital",
+    "topic": "DBMS & SQL",
+    "subtopic": "SQL Primary Key Constraint",
+    "title": "Primary Key vs Unique Key Constraint Invariant",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "What is the key functional difference between a PRIMARY KEY and a UNIQUE KEY constraint in SQL databases?",
+    "options": [
+      "A) A table can have only one PRIMARY KEY (which forbids NULLs), but multiple UNIQUE KEY columns (which allow one NULL).",
+      "B) Primary Keys accept multiple NULL values.",
+      "C) Unique Keys automatically create clustered indices.",
+      "D) Primary Keys can only be integers."
+    ],
+    "correct_option_index": 0,
+    "explanation": "PRIMARY KEY uniquely identifies rows and strictly disallows NULLs. UNIQUE KEY permits null entries depending on RDBMS implementation."
+  },
+  {
+    "id": "core-dbms-med-01",
+    "company": "Amazon",
+    "topic": "DBMS & SQL",
+    "subtopic": "B+ Tree Indexing",
+    "title": "B+ Tree Index Range Query Efficiency",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "Why are B+ Trees preferred over standard Binary Search Trees or Hash Tables for relational database indexing?",
+    "options": [
+      "A) All data records/pointers are stored in leaf nodes linked sequentially, optimizing disk block IO and range queries.",
+      "B) B+ trees perform O(1) point lookups faster than hash tables.",
+      "C) B+ trees do not require disk access.",
+      "D) Leaf nodes store parent references only."
+    ],
+    "correct_option_index": 0,
+    "explanation": "B+ tree leaf nodes contain all keys in a linked list, enabling fast sequential range scans and high fan-out disk block utilization."
+  },
+  {
+    "id": "core-dbms-hard-01",
+    "company": "Microsoft",
+    "topic": "DBMS & SQL",
+    "subtopic": "WAL Protocol",
+    "title": "Write-Ahead Logging (WAL) & ARIES Recovery Protocol",
+    "difficulty": "Hard",
+    "type": "Technical MCQ",
+    "description": "In database crash recovery, what does the Write-Ahead Logging (WAL) protocol strictly dictate before modified dirty data pages are written to persistent disk?",
+    "options": [
+      "A) Log records representing the modification must be written to stable non-volatile log storage first.",
+      "B) Database snapshot must be saved.",
+      "C) All active transactions must commit.",
+      "D) Indexes must be dropped."
+    ],
+    "correct_option_index": 0,
+    "explanation": "WAL guarantees durability and atomicity by ensuring log records describing updates reach non-volatile disk storage before actual data pages are flushed."
+  },
+  {
+    "id": "core-cn-easy-01",
+    "company": "Infosys SP",
+    "topic": "Computer Networks",
+    "subtopic": "MAC Address vs IP Address",
+    "title": "Data Link Layer MAC Address Invariant",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "Which layer of the OSI model uses 48-bit MAC (Media Access Control) addresses for local frame delivery?",
+    "options": [
+      "A) Data Link Layer (Layer 2)",
+      "B) Network Layer (Layer 3)",
+      "C) Physical Layer (Layer 1)",
+      "D) Transport Layer (Layer 4)"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Layer 2 (Data Link Layer) utilizes hardware MAC addresses (e.g. Ethernet, Wi-Fi) to route frames across local LAN segments."
+  },
+  {
+    "id": "core-cn-med-01",
+    "company": "Amazon",
+    "topic": "Computer Networks",
+    "subtopic": "TCP Congestion Control",
+    "title": "TCP Congestion Window Slow Start Threshold (ssthresh)",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "During TCP Tahoe/Reno congestion control, what state transition occurs when the Congestion Window (cwnd) reaches the Slow Start Threshold (ssthresh)?",
+    "options": [
+      "A) Switches from exponential growth (Slow Start) to linear growth (Congestion Avoidance).",
+      "B) Immediately resets cwnd to 1.",
+      "C) Drops all queued packets.",
+      "D) Converts connection to UDP stream."
+    ],
+    "correct_option_index": 0,
+    "explanation": "When cwnd >= ssthresh, TCP exits exponential Slow Start and enters linear Congestion Avoidance (+1 MSS per RTT)."
+  },
+  {
+    "id": "core-oop-easy-01",
+    "company": "TCS Digital",
+    "topic": "OOP",
+    "subtopic": "Encapsulation",
+    "title": "OOP Encapsulation & Data Hiding",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "What is the primary objective of Encapsulation in Object-Oriented Design?",
+    "options": [
+      "A) Bundling data state and methods together while restricting direct external modification via access specifiers.",
+      "B) Allowing a child class to inherit properties from multiple parent classes.",
+      "C) Executing functions with identical names at compile time.",
+      "D) Writing global procedure calls."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Encapsulation protects object internal state by wrapping fields and exposing controlled getter/setter interface methods."
+  },
+  {
+    "id": "core-oop-med-01",
+    "company": "Google",
+    "topic": "OOP",
+    "subtopic": "Diamond Problem C++",
+    "title": "C++ Virtual Inheritance & Diamond Problem",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "How does C++ resolve the 'Diamond Problem' in multiple inheritance where class D inherits from B and C, both inheriting from A?",
+    "options": [
+      "A) Virtual Base Class inheritance (`class B : virtual public A`)",
+      "B) Friend function declarations",
+      "C) Static member overrides",
+      "D) Operator overloading"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Virtual inheritance guarantees only a single shared instance of base class A exists within derived object D."
+  },
+  {
+    "id": "core-apt-easy-01",
+    "company": "Accenture",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Ratios & Proportions",
+    "title": "Ratio Division Calculation",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "Divide $1200 among A, B, and C in the ratio 2 : 3 : 5. What is C's share?",
+    "options": [
+      "A) $600",
+      "B) $360",
+      "C) $240",
+      "D) $500"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Total ratio parts = 2 + 3 + 5 = 10. C's share = (5 / 10) * 1200 = $600."
+  },
+  {
+    "id": "core-apt-med-01",
+    "company": "Wipro",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Permutations & Combinations",
+    "title": "Seating Arrangement Round Table",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "In how many distinct ways can 6 people be seated around a circular table?",
+    "options": [
+      "A) 120 ways ((n - 1)! = 5! = 120)",
+      "B) 720 ways (6! = 720)",
+      "C) 36 ways",
+      "D) 60 ways"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Circular permutation of N objects is (N - 1)!. For 6 people, (6 - 1)! = 5! = 120."
+  },
+  {
+    "id": "core-sd-med-01",
+    "company": "Meta",
+    "topic": "System Design",
+    "subtopic": "Consistent Hashing",
+    "title": "Consistent Hashing Virtual Nodes Invariant",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "In distributed caching systems, why are 'Virtual Nodes' introduced into Consistent Hashing rings?",
+    "options": [
+      "A) To ensure uniform key distribution across physical servers and prevent hot-spots.",
+      "B) To double network bandwidth.",
+      "C) To eliminate database joins.",
+      "D) To encrypt cached tokens."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Mapping multiple virtual nodes to each physical server distributes keys evenly across the hash ring and balances load."
+  },
+  {
+    "id": "core-sd-hard-01",
+    "company": "Amazon",
+    "topic": "System Design",
+    "subtopic": "CAP Theorem",
+    "title": "CAP Theorem Partition Tolerance (P) Implication",
+    "difficulty": "Hard",
+    "type": "Conceptual MCQ",
+    "description": "According to the CAP Theorem, when a network partition (P) occurs in a distributed system, what trade-off MUST the system choose between?",
+    "options": [
+      "A) Consistency (C) vs Availability (A)",
+      "B) Latency vs Security",
+      "C) Storage vs Throughput",
+      "D) Memory vs Bandwidth"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Network partitions are inevitable in real networks. Thus systems must trade off strong Consistency (CP) or high Availability (AP) during partitions."
+  },
+  {
+    "id": "core-py-med-01",
+    "company": "Google",
+    "topic": "Python",
+    "subtopic": "List Comprehension & Memory Generators",
+    "title": "Python Generator Expression vs List Comprehension Memory",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "What is the memory advantage of using a Generator expression `(x*x for x in range(10**6))` instead of a List comprehension `[x*x for x in range(10**6)]`?",
+    "options": [
+      "A) Generators yield items lazily on demand using O(1) space, whereas List comprehensions allocate all 10^6 elements in memory upfront.",
+      "B) Generators execute faster on GPU.",
+      "C) List comprehensions do not allow iteration.",
+      "D) Generator expressions produce immutable tuple objects."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Generators evaluate lazily via iterator protocol, using O(1) state memory instead of instantiating an entire O(N) array in RAM."
+  },
+  {
+    "id": "core-java-med-01",
+    "company": "Amazon",
+    "topic": "Java",
+    "subtopic": "HashMap Collision Handling",
+    "title": "Java 8 HashMap Treeify Threshold",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "In Java 8+, when the number of items in a single HashMap bucket bin exceeds 8 (TREEIFY_THRESHOLD), what transformation occurs to maintain O(log N) lookup?",
+    "options": [
+      "A) Linked list bucket converts into a Balanced Red-Black Tree.",
+      "B) HashMap throws ConcurrentModificationException.",
+      "C) Array capacity is doubled immediately.",
+      "D) Bucket entries are deleted."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Java 8 converts heavily collided linked list buckets into Red-Black trees when bin count >= 8 and table capacity >= 64, improving worst-case search from O(N) to O(log N)."
+  },
+  {
+    "id": "core-os-med-02",
+    "company": "Amazon",
+    "topic": "Operating Systems",
+    "subtopic": "Thrashing in Virtual Memory",
+    "title": "Virtual Memory Thrashing Cause & Fix",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "What primary condition causes OS 'Thrashing' where CPU spends more time paging than executing processes?",
+    "options": [
+      "A) Sum of working set sizes of all active processes exceeds available physical memory frames.",
+      "B) Page table size becomes zero.",
+      "C) CPU clock frequency drops.",
+      "D) Disk storage is full."
+    ],
+    "correct_option_index": 0,
+    "explanation": "When total working set requirements > physical RAM frames, processes repeatedly fault and swap pages, causing thrashing."
+  },
+  {
+    "id": "core-os-easy-02",
+    "company": "Infosys SP",
+    "topic": "Operating Systems",
+    "subtopic": "CPU Scheduling Algorithms",
+    "title": "First-Come First-Served (FCFS) Convoy Effect",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "In CPU scheduling, what is the 'Convoy Effect' associated with First-Come First-Served (FCFS)?",
+    "options": [
+      "A) Short I/O-bound processes wait behind a long CPU-bound process, tanking CPU and device utilization.",
+      "B) Multiple CPU cores deadlocking.",
+      "C) Priority inversion in real-time systems.",
+      "D) Process stack overflow."
+    ],
+    "correct_option_index": 0,
+    "explanation": "FCFS non-preemptive scheduling forces short processes to wait behind long burst processes, leading to high average waiting time."
+  },
+  {
+    "id": "core-dbms-med-02",
+    "company": "Google",
+    "topic": "DBMS & SQL",
+    "subtopic": "3NF vs BCNF Normalization",
+    "title": "Third Normal Form (3NF) Transitive Dependency Invariant",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "A table schema R is in Third Normal Form (3NF) if for every functional dependency X -> A:",
+    "options": [
+      "A) X is a super key OR A is a prime attribute (part of a candidate key).",
+      "B) X must strictly be a primary key only.",
+      "C) Table contains no composite keys.",
+      "D) All non-prime attributes are null."
+    ],
+    "correct_option_index": 0,
+    "explanation": "3NF allows functional dependency X -> A if X is a superkey OR A is a prime attribute (preventing transitive dependencies)."
+  },
+  {
+    "id": "core-dbms-easy-02",
+    "company": "Wipro",
+    "topic": "DBMS & SQL",
+    "subtopic": "SQL JOIN Types",
+    "title": "SQL LEFT OUTER JOIN Behavior",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "What rows are returned by a `LEFT JOIN` between Table A and Table B?",
+    "options": [
+      "A) All rows from Table A, plus matched rows from Table B (with NULLs for unmatched Table B rows).",
+      "B) Only matching rows present in both tables.",
+      "C) All rows from Table B only.",
+      "D) Cartesian product of Table A and Table B."
+    ],
+    "correct_option_index": 0,
+    "explanation": "LEFT JOIN retains every record from the left table regardless of whether a matching record exists in the right table."
+  },
+  {
+    "id": "core-cn-med-02",
+    "company": "Microsoft",
+    "topic": "Computer Networks",
+    "subtopic": "ARP Protocol",
+    "title": "Address Resolution Protocol (ARP) Function",
+    "difficulty": "Medium",
+    "type": "Technical MCQ",
+    "description": "What is the primary function of the Address Resolution Protocol (ARP)?",
+    "options": [
+      "A) Resolves a known IPv4 address to its corresponding 48-bit MAC hardware address on a local network.",
+      "B) Resolves domain names to IP addresses.",
+      "C) Assigns dynamic IP addresses to hosts.",
+      "D) Encrypts HTTP requests."
+    ],
+    "correct_option_index": 0,
+    "explanation": "ARP broadcasts queries on the local LAN to map a target 32-bit IPv4 address to its 48-bit Ethernet MAC address."
+  },
+  {
+    "id": "core-cn-easy-02",
+    "company": "TCS Digital",
+    "topic": "Computer Networks",
+    "subtopic": "TCP vs UDP",
+    "title": "TCP Connection-Oriented vs UDP Connectionless",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "Why is UDP preferred over TCP for real-time video streaming and gaming?",
+    "options": [
+      "A) UDP has lower latency without handshake overhead or retransmission delays for lost packets.",
+      "B) UDP guarantees 100% packet delivery.",
+      "C) UDP encrypts video data automatically.",
+      "D) UDP uses 64-bit IP headers."
+    ],
+    "correct_option_index": 0,
+    "explanation": "UDP prioritizes low latency and real-time throughput over error retransmission and connection establishment."
+  },
+  {
+    "id": "core-oop-med-02",
+    "company": "Meta",
+    "topic": "OOP",
+    "subtopic": "SOLID Principles",
+    "title": "Liskov Substitution Principle (LSP) Invariant",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "According to the Liskov Substitution Principle (L in SOLID):",
+    "options": [
+      "A) Objects of a superclass should be replaceable with objects of its subclasses without altering program correctness.",
+      "B) Classes should have only one reason to change.",
+      "C) High-level modules should not depend on low-level modules.",
+      "D) Interfaces should contain as many methods as possible."
+    ],
+    "correct_option_index": 0,
+    "explanation": "LSP mandates that derived classes must extend base behavior without breaking expected invariants or throwing unexpected exceptions."
+  },
+  {
+    "id": "core-apt-med-02",
+    "company": "Infosys SP",
+    "topic": "Quantitative Aptitude",
+    "subtopic": "Clocks & Angles",
+    "title": "Angle Between Clock Hands at 3:30",
+    "difficulty": "Medium",
+    "type": "Conceptual MCQ",
+    "description": "What is the angle between the hour hand and minute hand of a clock at 3:30?",
+    "options": [
+      "A) 75 degrees",
+      "B) 90 degrees",
+      "C) 60 degrees",
+      "D) 105 degrees"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Hour hand position at 3:30 = (3 + 30/60) * 30 = 105 deg. Minute hand position = 30 * 6 = 180 deg. Angle = |180 - 105| = 75 degrees."
+  },
+  {
+    "id": "core-py-easy-01",
+    "company": "Amazon",
+    "topic": "Python",
+    "subtopic": "Mutable vs Immutable Types",
+    "title": "Python Built-in Mutable vs Immutable Types",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "Which of the following Python data structures is MUTABLE?",
+    "options": [
+      "A) List",
+      "B) Tuple",
+      "C) String",
+      "D) FrozenSet"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Lists (and dicts, sets) are mutable in Python; Tuples, Strings, and FrozenSets are immutable."
+  },
+  {
+    "id": "core-java-easy-01",
+    "company": "Microsoft",
+    "topic": "Java",
+    "subtopic": "Abstract Class vs Interface Java 8",
+    "title": "Java 8 Interfaces Default Methods",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "Starting in Java 8, interfaces can contain concrete method implementations using which keyword?",
+    "options": [
+      "A) default",
+      "B) static only",
+      "C) final",
+      "D) synchronized"
+    ],
+    "correct_option_index": 0,
+    "explanation": "Java 8 introduced `default` methods in interfaces to enable backwards-compatible API extensions without breaking implementing classes."
+  },
+  {
+    "id": "core-sd-easy-01",
+    "company": "Flipkart",
+    "topic": "System Design",
+    "subtopic": "Vertical vs Horizontal Scaling",
+    "title": "Horizontal Scaling (Scale-Out) Advantage",
+    "difficulty": "Easy",
+    "type": "Conceptual MCQ",
+    "description": "What is the key advantage of Horizontal Scaling (Scale-Out) over Vertical Scaling (Scale-Up)?",
+    "options": [
+      "A) Adds more commodity server nodes dynamically without hardware ceiling limits, improving fault tolerance.",
+      "B) Requires no network load balancer.",
+      "C) Reduces data replication complexity.",
+      "D) Uses a single monolithic RAM chip."
+    ],
+    "correct_option_index": 0,
+    "explanation": "Scale-out adds server nodes to handle traffic increases without hardware RAM/CPU limits of a single machine."
   }
 ]

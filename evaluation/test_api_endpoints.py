@@ -206,6 +206,21 @@ def test_practice_submit():
 
 
 
+def test_generate_dynamic_question():
+    res = client.post("/api/learning/questions/generate_dynamic", json={
+        "company": "Google",
+        "topic": "Operating Systems",
+        "difficulty": "Hard",
+        "question_type": "Technical MCQ"
+    })
+    assert res.status_code == 200
+    q = res.json()
+    assert "id" in q
+    assert q["company"] == "Google"
+    assert q["topic"] == "Operating Systems"
+    assert len(q["options"]) == 4
+
+
 # ── 5. Assessment ─────────────────────────────────────────────────────────────
 def test_generate_and_submit_assessment():
     # Generate
@@ -213,7 +228,10 @@ def test_generate_and_submit_assessment():
         "title": "Integration Test Diagnostic",
         "target_role": "Software Development Engineer (SDE)",
         "target_company": "Amazon",
+        "subject_focus": "Graphs",
         "difficulty": "Medium",
+        "question_count": 5,
+        "use_dynamic_ai": True,
         "duration_minutes": 20
     })
     assert gen_res.status_code == 200
@@ -221,6 +239,7 @@ def test_generate_and_submit_assessment():
     assert "session_id" in assessment
     session_id = assessment["session_id"]
     questions = assessment.get("questions", [])
+    assert len(questions) == 5
 
     # Submit with first-option answers for each question
     submissions = [

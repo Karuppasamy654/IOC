@@ -25,22 +25,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
     setLoading(true);
 
     try {
+      let res: any;
       if (mode === 'login') {
-        const res = await loginUser({ email, password });
-        onSuccess(res);
+        res = await loginUser({ email, password });
       } else {
-        const res = await registerUser({
+        res = await registerUser({
           email,
           name,
           password,
           target_role: targetRole,
           target_company: targetCompany
         });
-        onSuccess(res);
       }
+      onSuccess(res);
       onClose();
     } catch (err: any) {
-      setError(err.message || 'Authentication failed');
+      console.warn("Auth error caught in UI:", err);
+      setError(err?.message || 'Authentication error. Initializing student environment...');
     } finally {
       setLoading(false);
     }

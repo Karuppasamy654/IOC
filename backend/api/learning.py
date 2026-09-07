@@ -45,6 +45,12 @@ class SubmitPracticeAnswerRequest(BaseModel):
     submitted_code: Optional[str] = None
     time_taken_seconds: Optional[float] = 30.0
 
+class DynamicQuestionRequest(BaseModel):
+    company: Optional[str] = "Amazon"
+    topic: Optional[str] = "Graphs"
+    difficulty: Optional[str] = "Medium"
+    question_type: Optional[str] = "Technical MCQ"
+
 @router.get("/questions")
 def list_questions(
     topic: Optional[str] = None,
@@ -60,9 +66,9 @@ def list_questions(
     if question_type and question_type != "All Question Types" and question_type != "All Types":
         query = query.filter(QuestionRecord.question_type.ilike(f"%{question_type}%"))
     if company and company != "All Companies":
-        query = query.filter(QuestionRecord.company == company)
+        query = query.filter(QuestionRecord.company.ilike(f"%{company}%"))
     if difficulty and difficulty != "All Difficulties":
-        query = query.filter(QuestionRecord.difficulty == difficulty)
+        query = query.filter(QuestionRecord.difficulty.ilike(f"%{difficulty}%"))
     if search:
         query = query.filter(
             (QuestionRecord.title.ilike(f"%{search}%")) |
@@ -70,25 +76,99 @@ def list_questions(
         )
     records = query.all()
 
+    # Progressive fallback if specific 4-way combination returns empty
+    if not records:
+        # Try matching by topic or company individually, retaining difficulty filter
+        relax_query = db.query(QuestionRecord)
+        if difficulty and difficulty != "All Difficulties":
+            relax_query = relax_query.filter(QuestionRecord.difficulty.ilike(f"%{difficulty}%"))
+        if topic and topic != "All Topics" and topic != "All Subjects":
+            relax_query = relax_query.filter(QuestionRecord.topic.ilike(f"%{topic}%"))
+        elif company and company != "All Companies":
+            relax_query = relax_query.filter(QuestionRecord.company.ilike(f"%{company}%"))
+        records = relax_query.all()
+
+    # Strict difficulty post-filter if difficulty was requested
+    if difficulty and difficulty != "All Difficulties":
+        records = [r for r in records if r.difficulty and difficulty.lower() in r.difficulty.lower()]
+
+    # If still empty, try finding ANY questions matching the requested difficulty in the DB
+    if not records and difficulty and difficulty != "All Difficulties":
+        records = db.query(QuestionRecord).filter(QuestionRecord.difficulty.ilike(f"%{difficulty}%")).all()
+
+    # If still empty, synthesize a tailored dynamic question on the fly matching the exact requested difficulty
+    if not records:
+        try:
+            from backend.tools.mock_assessment_tool import MockAssessmentTool
+            tool = MockAssessmentTool(db)
+            eff_company = company if (company and company != "All Companies") else "Amazon"
+            eff_topic = topic if (topic and topic != "All Topics" and topic != "All Subjects") else "Graphs"
+            eff_diff = difficulty if (difficulty and difficulty != "All Difficulties") else "Medium"
+            eff_type = question_type if (question_type and question_type != "All Question Types" and question_type != "All Types") else "Technical MCQ"
+            syn_q = tool.synthesize_dynamic_question(
+                company=eff_company,
+                topic=eff_topic,
+                difficulty=eff_diff
+            )
+            if syn_q:
+                syn_q["company"] = eff_company
+                syn_q["topic"] = eff_topic
+                syn_q["difficulty"] = eff_diff
+                syn_q["question_type"] = eff_type
+                syn_q["distinction_tag"] = f"{eff_company}-AI Generated"
+                return [syn_q]
+        except Exception as e:
+            print(f"Error in on-the-fly question synthesis: {e}")
+            if difficulty and difficulty != "All Difficulties":
+                records = db.query(QuestionRecord).filter(QuestionRecord.difficulty.ilike(f"%{difficulty}%")).all()
+            else:
+                records = db.query(QuestionRecord).limit(10).all()
+
     return [
         {
             "id": r.id,
             "company": r.company or "Amazon",
             "topic": r.topic,
-            "subtopic": r.subtopic,
+            "subtopic": r.subtopic or f"{r.topic} Placement Concept",
             "title": r.title,
             "difficulty": r.difficulty,
-            "question_type": r.question_type,
+            "question_type": r.question_type or "mcq",
+            "distinction_tag": f"{r.company or 'Placement'} Pattern",
             "description": r.description,
-            "starter_code": r.starter_code,
-            "options": r.options or [],
-            "correct_option_index": r.correct_option_index,
-            "explanation": r.explanation,
+            "starter_code": r.starter_code or {},
+            "options": r.options if (r.options and len(r.options) >= 2) else [
+                "A) Optimal state invariant satisfied",
+                "B) Sub-optimal state invariant",
+                "C) Boundary flaw state",
+                "D) Time limit exceeded state"
+            ],
+            "correct_option_index": r.correct_option_index if r.correct_option_index is not None else 0,
+            "explanation": r.explanation or "Detailed step-by-step breakdown of optimal invariant.",
             "test_cases": [tc for tc in (r.test_cases or []) if not tc.get("is_hidden", False)],
             "total_test_cases": len(r.test_cases or [])
         }
         for r in records
     ]
+
+@router.post("/questions/generate_dynamic")
+def generate_dynamic_question(
+    req: DynamicQuestionRequest,
+    db: Session = Depends(get_db)
+):
+    from backend.tools.mock_assessment_tool import MockAssessmentTool
+    tool = MockAssessmentTool(db)
+    
+    company = req.company or "Amazon"
+    topic = req.topic or "Graphs"
+    difficulty = req.difficulty or "Medium"
+
+    syn_q = tool.synthesize_dynamic_question(
+        company=company,
+        topic=topic,
+        difficulty=difficulty
+    )
+    syn_q["distinction_tag"] = f"{company}-AI Generated"
+    return syn_q
 
 @router.post("/practice/submit")
 def submit_practice_answer(

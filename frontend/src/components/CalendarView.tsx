@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { CalendarDays, Clock, CheckCircle2, AlertCircle, ChevronLeft, ChevronRight, Sparkles, Award, RefreshCw } from 'lucide-react';
-import { AdaptivePlan, CalendarSession } from '../types';
+import { AdaptivePlan, CalendarSession, StudentProfile } from '../types';
 
 interface CalendarViewProps {
   currentPlan: AdaptivePlan | null;
-  onNavigate: (tab: string) => void;
+  profile?: StudentProfile | null;
+  onNavigate: (tab: string, config?: any) => void;
 }
 
-export const CalendarView: React.FC<CalendarViewProps> = ({ currentPlan, onNavigate }) => {
+export const CalendarView: React.FC<CalendarViewProps> = ({ currentPlan, profile, onNavigate }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date(2026, 8, 7)); // Sept 7, 2026
   const [selectedDateStr, setSelectedDateStr] = useState<string>('2026-09-07');
 
@@ -33,116 +34,133 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ currentPlan, onNavig
     return `${year}-${m}-${d}`;
   };
 
-  // Generate sessions dynamically based on date
+  const targetCompany = profile?.target_company || 'Amazon';
+  const targetRole = profile?.target_role || 'SDE';
+
+  // Generate sessions dynamically based on date & current adaptive plan
   const getSessionsForDate = (dateStr: string): CalendarSession[] => {
     const day = parseInt(dateStr.split('-')[2], 10);
+    const isToday = dateStr === '2026-09-07';
 
-    if (day % 4 === 1) {
+    // 1. If today and active plan schedule_blocks exist, derive directly from plan
+    if (isToday && currentPlan?.schedule_blocks && currentPlan.schedule_blocks.length > 0) {
+      return currentPlan.schedule_blocks.map((block, idx) => {
+        const isMock = block.type?.toLowerCase().includes('mock') || block.topic.toLowerCase().includes('mock');
+        const sessType: CalendarSession['session_type'] = isMock
+          ? 'Mock Assessment'
+          : block.type === 'MCQ Practice' || block.type === 'Output Questions' || block.type === 'Concept Revision' || block.type === 'Code Practice'
+          ? block.type
+          : 'MCQ Practice';
+
+        return {
+          id: `plan-${dateStr}-${idx}`,
+          date: dateStr,
+          time_slot: block.time || '09:00 – 10:00',
+          topic: block.topic,
+          subtopic: block.activity || `${block.topic} Core Concepts`,
+          session_type: sessType,
+          difficulty: (block.difficulty as any) || 'Medium',
+          duration_minutes: isMock ? 60 : 45,
+          company_pattern: block.company_tag || `${targetCompany} Standard`,
+          status: block.completed ? 'Completed' : 'Scheduled'
+        };
+      });
+    }
+
+    // 2. Dynamic multi-topic schedule allocation based on date & adaptive plan priorities
+    const isCompleted = day <= 7;
+
+    if (day % 3 === 0) {
       return [
         {
           id: `s-${dateStr}-1`,
           date: dateStr,
-          time_slot: '09:00 – 09:45',
-          topic: 'DSA — Graphs BFS & DFS Invariants',
-          subtopic: 'Visited Array Synchronization',
-          session_type: 'MCQ Practice',
-          difficulty: 'Medium',
-          duration_minutes: 45,
-          company_pattern: 'Amazon High Frequency',
-          status: day <= 7 ? 'Completed' : 'Scheduled'
+          time_slot: '09:00 – 10:00',
+          topic: `${targetCompany} Technical Placement Mock OA`,
+          subtopic: `Full Assessment Simulation (${targetRole} Pattern)`,
+          session_type: 'Mock Assessment',
+          difficulty: 'Hard',
+          duration_minutes: 60,
+          company_pattern: `${targetCompany} OA Replica`,
+          status: isCompleted ? 'Completed' : 'Scheduled'
         },
         {
           id: `s-${dateStr}-2`,
           date: dateStr,
-          time_slot: '10:00 – 10:30',
-          topic: 'DBMS — Normalization & ER Diagrams',
-          subtopic: '3NF & BCNF Functional Dependencies',
-          session_type: 'Output Questions',
-          difficulty: 'Medium',
-          duration_minutes: 30,
-          company_pattern: 'Company Pattern',
-          status: day <= 7 ? 'Completed' : 'Scheduled'
-        },
-        {
-          id: `s-${dateStr}-3`,
-          date: dateStr,
-          time_slot: '14:00 – 14:45',
-          topic: 'OS — Process Synchronization & Mutex',
-          subtopic: 'Semaphores & Deadlock Conditions',
-          session_type: 'Concept Revision',
-          difficulty: 'Hard',
-          duration_minutes: 45,
-          company_pattern: 'Diagnosed Weak Topic',
-          status: day <= 7 ? 'Completed' : 'Scheduled'
-        }
-      ];
-    } else if (day % 4 === 2) {
-      return [
-        {
-          id: `s-${dateStr}-4`,
-          date: dateStr,
-          time_slot: '09:00 – 09:45',
-          topic: 'Operating Systems — Deadlock Prevention',
-          subtopic: "Banker's Algorithm State Space",
-          session_type: 'MCQ Practice',
-          difficulty: 'Hard',
-          duration_minutes: 45,
-          company_pattern: 'Diagnosed Weak Area',
-          status: day <= 7 ? 'Completed' : 'Scheduled'
-        },
-        {
-          id: `s-${dateStr}-5`,
-          date: dateStr,
-          time_slot: '11:00 – 11:30',
-          topic: 'SQL — Aggregations & Window Functions',
-          subtopic: 'HAVING Clauses & DENSE_RANK()',
+          time_slot: '14:00 – 14:30',
+          topic: 'DBMS & SQL — Complex Aggregations & Joins',
+          subtopic: 'HAVING Clauses & DENSE_RANK() Window Functions',
           session_type: 'Output Questions',
           difficulty: 'Medium',
           duration_minutes: 30,
           company_pattern: 'High Weight Target',
-          status: day <= 7 ? 'Completed' : 'Scheduled'
+          status: isCompleted ? 'Completed' : 'Scheduled'
         }
       ];
-    } else if (day % 4 === 3) {
+    } else if (day % 3 === 1) {
       return [
         {
-          id: `s-${dateStr}-6`,
+          id: `s-${dateStr}-3`,
           date: dateStr,
-          time_slot: '14:00 – 15:00',
-          topic: 'Amazon Technical Placement Mock OA',
-          subtopic: 'Full Company Assessment Simulation',
-          session_type: 'Mock Assessment',
+          time_slot: '09:00 – 09:45',
+          topic: 'DSA — Graphs BFS & DFS Invariants',
+          subtopic: 'Visited Array Synchronization & Kahn Algorithm',
+          session_type: 'MCQ Practice',
+          difficulty: 'Medium',
+          duration_minutes: 45,
+          company_pattern: `${targetCompany} High Frequency`,
+          status: isCompleted ? 'Completed' : 'Scheduled'
+        },
+        {
+          id: `s-${dateStr}-4`,
+          date: dateStr,
+          time_slot: '11:00 – 11:45',
+          topic: 'OS — Process Synchronization & Mutex Invariants',
+          subtopic: 'Semaphores & Deadlock Banker State Space',
+          session_type: 'Concept Revision',
           difficulty: 'Hard',
-          duration_minutes: 60,
-          company_pattern: 'Company OA Replica',
-          status: 'Scheduled'
+          duration_minutes: 45,
+          company_pattern: 'Diagnosed Weak Topic',
+          status: isCompleted ? 'Completed' : 'Scheduled'
+        },
+        {
+          id: `s-${dateStr}-5`,
+          date: dateStr,
+          time_slot: '16:00 – 16:30',
+          topic: 'Computer Networks — TCP 3-Way Handshake',
+          subtopic: 'SYN, ACK & Sequence Number Protocols',
+          session_type: 'Output Questions',
+          difficulty: 'Easy',
+          duration_minutes: 30,
+          company_pattern: 'Core CS Standard',
+          status: isCompleted ? 'Completed' : 'Scheduled'
         }
       ];
     } else {
       return [
         {
-          id: `s-${dateStr}-7`,
+          id: `s-${dateStr}-6`,
           date: dateStr,
           time_slot: '10:00 – 10:45',
-          topic: 'C++ Output Tracing & Pointer Mechanics',
-          subtopic: 'Virtual Table & Pointer Arithmetic',
-          session_type: 'Output Questions',
-          difficulty: 'Medium',
+          topic: 'Dynamic Programming — 0/1 Knapsack & State Optimization',
+          subtopic: '1D Rolling Array Space Invariants',
+          session_type: 'Code Practice',
+          difficulty: 'Hard',
           duration_minutes: 45,
-          company_pattern: 'Syntax Flaw Focus',
-          status: 'Scheduled'
+          company_pattern: `${targetCompany} Algorithmic Pattern`,
+          status: isCompleted ? 'Completed' : 'Scheduled'
         },
         {
-          id: `s-${dateStr}-8`,
+          id: `s-${dateStr}-7`,
           date: dateStr,
-          time_slot: '16:00 – 16:30',
-          topic: 'Computer Networks — TCP 3-Way Handshake',
-          subtopic: 'SYN, ACK & Packet Headers',
-          session_type: 'MCQ Practice',
-          difficulty: 'Easy',
+          time_slot: '15:00 – 15:30',
+          topic: 'C++ Output Tracing & Pointer Mechanics',
+          subtopic: 'Virtual Table & Dynamic Dispatch Invariants',
+          session_type: 'Output Questions',
+          difficulty: 'Medium',
           duration_minutes: 30,
-          company_pattern: 'Core CS Standard',
-          status: 'Scheduled'
+          company_pattern: 'Syntax Flaw Focus',
+          status: isCompleted ? 'Completed' : 'Scheduled'
         }
       ];
     }
@@ -373,7 +391,19 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ currentPlan, onNavig
                     </span>
                   ) : (
                     <button
-                      onClick={() => onNavigate(isMock ? 'assessment' : 'practice')}
+                      onClick={() =>
+                        onNavigate(
+                          isMock ? 'assessment' : 'practice',
+                          isMock
+                            ? {
+                                durationMinutes: session.duration_minutes,
+                                subjectFocus: session.topic.includes('Mock') ? 'All Subjects' : session.topic,
+                                targetCompany: targetCompany,
+                                questionCount: Math.round(session.duration_minutes / 3) || 15
+                              }
+                            : undefined
+                        )
+                      }
                       className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 text-white font-bold text-xs shadow-md transition-all active:scale-95"
                     >
                       {isMock ? 'Start Mock OA' : 'Practice Session'}

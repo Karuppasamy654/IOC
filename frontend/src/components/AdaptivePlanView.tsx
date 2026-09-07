@@ -18,8 +18,9 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
   const [selectedPlanVersion, setSelectedPlanVersion] = useState<number | null>(null);
 
   const activeVersion = currentPlan?.version || 1;
+  const safePlanHistory = Array.isArray(planHistory) ? planHistory : [];
   const displayedPlan = selectedPlanVersion
-    ? planHistory.find((p) => p.version === selectedPlanVersion) || currentPlan
+    ? safePlanHistory.find((p) => p.version === selectedPlanVersion) || currentPlan
     : currentPlan;
 
   // 30-Day Roadmap Breakdown structure
@@ -118,7 +119,7 @@ export const AdaptivePlanView: React.FC<AdaptivePlanViewProps> = ({
           <span className="text-xs font-bold text-slate-300 flex items-center gap-1">
             <History className="w-4 h-4 text-indigo-400" /> Plan Version History:
           </span>
-          {planHistory.map((p) => {
+          {safePlanHistory.map((p) => {
             const isSelected =
               (selectedPlanVersion === null && p.version === activeVersion) || selectedPlanVersion === p.version;
             return (
